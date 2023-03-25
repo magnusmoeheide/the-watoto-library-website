@@ -1,11 +1,12 @@
+import { getArticles, getArticlesByAuthor, getArticleSectionsByArticle } from './articles';
 import { getAuthors, getAuthorById } from './authors';
-import { getArticles, getArticlesByAuthor } from './articles';
 
 
 export{
-    getAuthors,
-    getAuthorById, 
-    
     getArticles, 
     getArticlesByAuthor,
+    getArticleSectionsByArticle,
+    
+    getAuthors,
+    getAuthorById, 
 }

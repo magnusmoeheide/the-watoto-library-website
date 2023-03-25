@@ -11,6 +11,32 @@ function getArticles(setvariable) {
     });  
 }
 
+// Make a GET request to get articles by id from the database
+function getArticlesById(articleId, setvariable) {
+  fetch(`http://localhost:3001/articles/${articleId}`)
+    .then(response => response.json())
+    .then(data => {
+      setvariable(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+// Make a GET request to get sections in article by article from the database
+function getArticleSectionsByArticle(articleId, setvariable) {
+  fetch(`http://localhost:3001/articles/${articleId}`)
+    .then(response => response.json())
+    .then(data => {
+      setvariable(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
 // Make a GET request to get articles by authors from the database
 function getArticlesByAuthor(authorId, setvariable) {
   fetch(`http://localhost:3001/authors/${authorId}/articles`)
@@ -26,5 +52,8 @@ function getArticlesByAuthor(authorId, setvariable) {
 
 
 export {
-    getArticles, getArticlesByAuthor
+    getArticles, 
+    getArticlesById,
+    getArticleSectionsByArticle,
+    getArticlesByAuthor
 }
