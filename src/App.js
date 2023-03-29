@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
 import { 
-  Home, Articles
+  Home, Article, Articles, AdminHome
 } from './container';
 
 import './App.css';
@@ -14,7 +14,11 @@ function App() {
  
         <Routes>
             <Route exact path="/" element={<Home/>}/>
+            <Route path="/Articles/:id" element={<Article/>}/> 
             <Route path="/Articles" element={<Articles/>}/> 
+
+
+            <Route path="/AdminHome" element={<AdminHome/>}/> 
         </Routes>
     </div>
   );

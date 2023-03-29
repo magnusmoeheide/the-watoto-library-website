@@ -1,5 +1,6 @@
 import { getArticles, getArticlesByAuthor, getArticleSectionsByArticle } from './articles';
 import { getAuthors, getAuthorById } from './authors';
+import { getArticleSections } from './articleSections'
 
 
 export{
@@ -9,4 +10,6 @@ export{
     
     getAuthors,
     getAuthorById, 
+
+    getArticleSections
 }

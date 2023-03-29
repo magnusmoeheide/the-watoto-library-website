@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-const Articles = () => {
+const AllArticles = () => {
   return (
     <div>
       <h1>Articles</h1>
@@ -12,4 +12,4 @@ const Articles = () => {
   );
 };
 
-export default Articles;
+export default AllArticles;
