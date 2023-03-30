@@ -2,38 +2,33 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Navbar, Footer, Side } from "../../components";
 
-import { getArticles } from "../../database";
-//import { getAuthors, getAuthorById } from "../../database";
-import { getArticleSections } from "../../database";
+import { getWhatWeDo } from "../../database";
+import { getWwdSections } from "../../database";
 
-const Article = () => {
-  //const [authors, setAuthors] = useState([]);
-  const [articles, setArticles] = useState([]);
-  const [articleSections, setArticleSections] = useState([]);
+const WwdArticle = () => {
+  const [whatWeDo, setWhatWeDo] = useState([]);
+  const [wwdSections, setWwdSections] = useState([]);
 
   useEffect(() => {
-    //getAuthors(setAuthors);
-    getArticles(setArticles);
-    getArticleSections(setArticleSections);
+    getWhatWeDo(setWhatWeDo);
+    getWwdSections(setWwdSections);
   }, []);
-
-  console.log("articles", articles);
 
   const { id } = useParams();
   const sectionsForArticle = [];
 
-  articleSections.map((element) => {
-    if (element.article_id == id) {
+  wwdSections.map((element) => {
+    if (element.wwd_id == id) {
       sectionsForArticle.push(element);
     }
   });
 
   // Group sections by article ID
-  const sectionsByArticle = articleSections.reduce((acc, section) => {
-    if (!acc[section.article_id]) {
-      acc[section.article_id] = [];
+  const sectionsByArticle = wwdSections.reduce((acc, section) => {
+    if (!acc[section.wwd_id]) {
+      acc[section.wwd_id] = [];
     }
-    acc[section.article_id].push(section);
+    acc[section.wwd_id].push(section);
     return acc;
   }, {});
 
@@ -45,9 +40,11 @@ const Article = () => {
         <div className="main">
           <div>
             <div className="div-back">
-              <p className="allNewsLetters">
-                <i className="fa-solid fa-arrow-left"></i>Back to Newsletters
-              </p>
+              <Link to="/whatwedo">
+                <p className="allNewsLetters">
+                  <i className="fa-solid fa-arrow-left"></i>Back to What We Do
+                </p>
+              </Link>
             </div>
           </div>
           <div className="article">
@@ -56,17 +53,6 @@ const Article = () => {
                 return (
                   <div key={section.id}>
                     <h2>{section.section_header}</h2>
-                    <h5>
-                      <div className="date">
-                        <i className="fa-regular fa-calendar"></i>Posted on{" "}
-                        {
-                          articles.find(
-                            (article) =>
-                              article.article_id === section.article_id
-                          )?.publish_date
-                        }
-                      </div>
-                    </h5>
                     <p>{section.section_text}</p>
                     <br />
                   </div>
@@ -111,4 +97,4 @@ const Article = () => {
   );
 };
 
-export default Article;
+export default WwdArticle;

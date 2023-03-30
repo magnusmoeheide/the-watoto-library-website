@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Footer, Side } from "../../container";
+import { Navbar, Footer, Side } from "../../components";
 
 import { getArticles } from "../../database";
 import { getAuthors, getAuthorById } from "../../database";
@@ -52,13 +52,13 @@ const Home = () => {
                                 {
                                   articles.find(
                                     (article) =>
-                                      article.id === section.article_id
+                                      article.article_id === section.article_id
                                   )?.publish_date
                                 }
                               </div>
                             </h5>
                             <p>{section.section_text}</p>
-                            <Link to={`/articles/${section.article_id}`}>
+                            <Link to={`/whatwedo/${section.article_id}`}>
                               <div className="div-readmore">
                                 <p className="readmore">
                                   Read more{" "}

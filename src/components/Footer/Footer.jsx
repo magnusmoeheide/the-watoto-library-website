@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -87,6 +88,13 @@ const Footer = () => {
                   © 2022
                   <span className="notranslate"> The Watoto Library</span>
                 </p>
+
+                <p className="adminLoginLink">
+                  <Link to="/adminLogin">
+                    <span>Admin Login</span>
+                  </Link>
+                </p>
+
                 <p className="developed">
                   Developed and designed by Magnus Heide
                 </p>

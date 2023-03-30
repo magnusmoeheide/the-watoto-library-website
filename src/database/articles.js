@@ -1,4 +1,4 @@
-// Make a GET request to get authors from the database
+// Make a GET request to get articles from the database
 function getArticles(setvariable) {
     fetch('http://localhost:3001/articles')
     .then(response => response.json())
@@ -9,6 +9,19 @@ function getArticles(setvariable) {
     .catch((error) => {
       console.error('Error:', error);
     });  
+}
+
+// Make a GET request to get articles from the database
+function getNewestArticle(setvariable) {
+  fetch('http://localhost:3001/articles/newest')
+  .then(response => response.json())
+  .then(data => {
+    setvariable(data);
+     console.log(data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });  
 }
 
 // Make a GET request to get articles by id from the database
@@ -53,6 +66,7 @@ function getArticlesByAuthor(authorId, setvariable) {
 
 export {
     getArticles, 
+    getNewestArticle,
     getArticlesById,
     getArticleSectionsByArticle,
     getArticlesByAuthor
