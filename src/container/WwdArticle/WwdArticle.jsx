@@ -14,6 +14,10 @@ const WwdArticle = () => {
     getWwdSections(setWwdSections);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top of the page
+  }, []);
+
   const { id } = useParams();
   const sectionsForArticle = [];
 
@@ -48,47 +52,51 @@ const WwdArticle = () => {
             </div>
           </div>
           <div className="article">
-            {sectionsForArticle.map((section, index) => {
-              if (index === 0) {
-                return (
-                  <div key={section.id}>
-                    <h2>{section.section_header}</h2>
-                    <p>{section.section_text}</p>
-                    <br />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={section.id}>
-                    <h3>{section.section_header}</h3>
-                    <p>{section.section_text}</p>
-                    <br />
-                  </div>
-                );
-              }
-            })}
+            {sectionsForArticle
+              .sort((a, b) => a.section_number - b.section_number)
+              .map((section, index) => {
+                if (index === 0) {
+                  return (
+                    <div key={section.id}>
+                      <h2>{section.section_header}</h2>
+                      <p>{section.section_text}</p>
+                      <br />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div key={section.id}>
+                      <h3>{section.section_header}</h3>
+                      <p>{section.section_text}</p>
+                      <br />
+                    </div>
+                  );
+                }
+              })}
             <br />
           </div>
           <br />
           <div className="article-click" style={{ cursor: "default" }}>
             <h3>Read More</h3>
-            {Object.keys(sectionsByArticle)
-              .sort((a, b) => b - a)
-              .map((articleId) => (
-                <div key={articleId}>
-                  <div className="newsletter-wrapping">
-                    {sectionsByArticle[articleId].map((section, index) => {
-                      if (index === 0) {
-                        return (
-                          <a className="button">{section.section_header}</a>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })}
-                  </div>
+            {Object.keys(sectionsByArticle).map((articleId) => (
+              <div key={articleId}>
+                <div className="newsletter-wrapping">
+                  {sectionsByArticle[articleId].map((section, index) => {
+                    if (index === 0) {
+                      return (
+                        <div>
+                          <Link to={`/whatwedo/${section.wwd_id}`}>
+                            <a>{section.section_header}</a>
+                          </Link>
+                        </div>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>

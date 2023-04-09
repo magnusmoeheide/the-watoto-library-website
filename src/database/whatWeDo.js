@@ -11,7 +11,7 @@ function getWhatWeDo(setvariable) {
     });  
 }
 
-// get a author with a specific id
+// get wwd with a specific id
 function getWwdById(id) {
     fetch(`http://localhost:3001/whatwedo/${id}`, {
         method: 'GET'

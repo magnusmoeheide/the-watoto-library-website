@@ -35,6 +35,7 @@ const Home = () => {
         <div className="main">
           {Object.keys(sectionsByArticle)
             .sort((a, b) => b - a)
+            .slice(0, 4)
             .map((articleId) => (
               <div key={articleId}>
                 <br />
@@ -49,16 +50,20 @@ const Home = () => {
                               <div className="date">
                                 <i className="fa-regular fa-calendar"></i>Posted
                                 on{" "}
-                                {
+                                {new Date(
                                   articles.find(
                                     (article) =>
                                       article.article_id === section.article_id
                                   )?.publish_date
-                                }
+                                ).toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                })}
                               </div>
                             </h5>
                             <p>{section.section_text}</p>
-                            <Link to={`/whatwedo/${section.article_id}`}>
+                            <Link to={`/articles/${section.article_id}`}>
                               <div className="div-readmore">
                                 <p className="readmore">
                                   Read more{" "}

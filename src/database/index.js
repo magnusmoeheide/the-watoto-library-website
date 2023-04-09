@@ -2,9 +2,9 @@ import { getArticles, getNewestArticle, getArticlesByAuthor, getArticleSectionsB
 import { getAuthors, getAuthorById } from './authors';
 import { getArticleSections } from './articleSections';
 import { getWhatWeDo } from './whatWeDo';
-import { getWwdSections } from './wwdSections';
-import { getTeam } from './team';
-import { getOurGreatestNeeds } from './ourGreatestNeeds';
+import { getWwdSections, getWwdSectionsById, updateWwdSectionsById } from './wwdSections';
+import { getTeam, updateTeam, getTeamById, deleteTeam, createTeam } from './team';
+import { getOurGreatestNeeds, updateOurGreatestNeeds } from './ourGreatestNeeds';
 
 
 export{
@@ -19,8 +19,17 @@ export{
     getWhatWeDo,
 
     getArticleSections,
+
     getWwdSections,
+    getWwdSectionsById,
+    updateWwdSectionsById,
 
     getTeam,
-    getOurGreatestNeeds
+    updateTeam,
+    getTeamById,
+    deleteTeam,
+    createTeam,
+
+    getOurGreatestNeeds,
+    updateOurGreatestNeeds
 }

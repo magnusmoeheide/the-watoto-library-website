@@ -17,19 +17,49 @@ const AdminManageArticles = () => {
     getArticleSections(setArticleSections);
   }, []);
 
+  console.log("articles", articles);
+
   return (
-    <div className="adminHome">
+    <div className="admin">
       <h1>Admin Manage Articles</h1>
       <AdminMenu />
+      <br />
+      <h3>Articles</h3>
 
-      <table>
-        <tbody>
-          {articles.map((article) => (
-            <tr key={article.id}>
-              <td>{article.title}</td>
-              <td>{getAuthorById(authors, article.authorId)?.name}</td>
-            </tr>
+      <select>
+        <option value="">Select article to edit</option>
+        {articleSections
+          .filter((section) => section.section_number === 1)
+          .map((section) => (
+            <option key={section.id}>{section.section_header}</option>
           ))}
+      </select>
+      <h3>Create new Article</h3>
+
+      <table className="adminTable">
+        <tbody>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Create</th>
+          </tr>
+          <tr>
+            <td>
+              <input type="text" />
+            </td>
+
+            <td>
+              <select name="" id="">
+                <option value="">Choose author</option>
+                {authors.map((author) => (
+                  <option key={author.id}>{author.name}</option>
+                ))}
+              </select>
+            </td>
+            <td>
+              <button>Create</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

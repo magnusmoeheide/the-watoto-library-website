@@ -1,4 +1,5 @@
 import React from "react";
+import { images } from "../../constants";
 
 const Side = () => {
   return (
@@ -8,7 +9,7 @@ const Side = () => {
         style={{ cursor: "pointer" }}
         onClick="location.href='index.html';"
       >
-        <img src="media/logo/logo-transparent.png" className="img-nozoom" />
+        <img src={images.logoTransparent} className="img-nozoom" />
       </div>
 
       <div className="vision-statement">
@@ -36,10 +37,7 @@ const Side = () => {
 
       <div className="pointer">
         <div className="chess-peak">
-          <img
-            src="media/chess//boys-playing-chess.png"
-            className="img-nozoom"
-          />
+          <img src={images.boysPlayingChess} className="img-nozoom" />
         </div>
       </div>
       <br />

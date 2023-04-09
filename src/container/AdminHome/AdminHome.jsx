@@ -10,25 +10,40 @@ const AdminHome = () => {
   const [authors, setAuthors] = useState([]);
   const [articles, setArticles] = useState([]);
   const [newestArticle, setNewestArticle] = useState([]);
-  const [articleSections, setArticleSections] = useState([]);
 
   useEffect(() => {
     getAuthors(setAuthors);
     getArticles(setArticles);
     getNewestArticle(setNewestArticle);
-    getArticleSections(setArticleSections);
   }, []);
 
-  console.log("newest article: ", newestArticle);
+  const now = new Date();
+  const newestArticleDate = new Date(newestArticle);
+  const daysSinceLastArticle = Math.round(
+    (now.getTime() - newestArticleDate.getTime()) / 86400000
+  );
 
   return (
-    <div className="adminHome">
+    <div className="admin">
       <h1>Admin Home</h1>
       <AdminMenu />
 
       <h3>Stats</h3>
       <p>Articles created: {articles.length}</p>
-      <p>Last article created on: </p>
+      {newestArticle && (
+        <>
+          <p>
+            Last article created {daysSinceLastArticle} days ago, on{" "}
+            {newestArticleDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              timeZone: "UTC",
+            })}
+            .
+          </p>
+        </>
+      )}
     </div>
   );
 };

@@ -1,7 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
+
+  const isActive = (path) => {
+    return location.pathname === path ? "active" : "";
+  };
+
   return (
     <div>
       <nav className="navbar-2" id="nav2" onClick="myFunction()">
@@ -23,23 +29,23 @@ const Navbar = () => {
       </nav>
 
       <ul className="navigation" id="nav">
-        <li>
+        <li className={isActive("/")}>
           <Link to="/">HOME</Link>
         </li>
 
-        <li>
+        <li className={isActive("/whatwedo")}>
           <Link to="/whatwedo">WHAT WE DO</Link>
         </li>
 
-        <li>
+        <li className={isActive("/aboutus")}>
           <Link to="/">ABOUT US</Link>
         </li>
 
-        <li>
+        <li className={isActive("/getintouch")}>
           <Link to="/getintouch">GET IN TOUCH</Link>
         </li>
 
-        <li>
+        <li className={isActive("/donate")}>
           <Link to="/donate">DONATE</Link>
         </li>
       </ul>

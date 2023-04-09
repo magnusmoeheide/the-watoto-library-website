@@ -5,11 +5,15 @@ import {
   
   AdminLogin,
   AdminHome, 
-  AdminManageArticles
+  AdminManageArticles,
+  AdminManageOgn,
+  AdminManageTeam,
+  AdminManageWhatWeDo
   
 } from './container';
 
 import './App.css';
+import './articles.css';
 import {Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -29,6 +33,9 @@ function App() {
             <Route path="/AdminLogin" element={<AdminLogin/>}/> 
             <Route path="/AdminHome" element={<AdminHome/>}/> 
             <Route path="/AdminManageArticles" element={<AdminManageArticles/>}/> 
+            <Route path="/AdminManageOgn" element={<AdminManageOgn/>}/> 
+            <Route path="/AdminManageTeam" element={<AdminManageTeam/>}/> 
+            <Route path="/AdminManageWhatWeDo" element={<AdminManageWhatWeDo/>}/> 
         </Routes>
     </div>
   );

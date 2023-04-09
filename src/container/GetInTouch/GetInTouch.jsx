@@ -2,33 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Footer, Side } from "../../components";
 
-import { getArticles } from "../../database";
-import { getAuthors, getAuthorById } from "../../database";
-import { getArticleSections } from "../../database";
 import { getTeam } from "../../database";
 
-const Home = () => {
-  const [authors, setAuthors] = useState([]);
-  const [articles, setArticles] = useState([]);
-  const [articleSections, setArticleSections] = useState([]);
+const GetInTouch = () => {
   const [team, setTeam] = useState([]);
-  //const a = 1;
 
   useEffect(() => {
-    getAuthors(setAuthors);
-    getArticles(setArticles);
-    getArticleSections(setArticleSections);
     getTeam(setTeam);
   }, []);
-
-  // Group sections by article ID
-  const sectionsByArticle = articleSections.reduce((acc, section) => {
-    if (!acc[section.article_id]) {
-      acc[section.article_id] = [];
-    }
-    acc[section.article_id].push(section);
-    return acc;
-  }, {});
 
   return (
     <div>
@@ -117,4 +98,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default GetInTouch;

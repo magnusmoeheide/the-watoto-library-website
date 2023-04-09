@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Footer, Side } from "../../components";
+import { images } from "../../constants";
 
 import { getOurGreatestNeeds } from "../../database";
 
@@ -41,15 +42,23 @@ const Donate = () => {
             <h3>Our Expenses</h3>
             <p>
               We pay rent for our two library rooms and electricity. Per year:
-              <price style={{ marginTop: "0px" }}>US$ 540</price>
-              <price style={{ marginTop: "0px" }}>KES 66,000</price>
+              <div className="price" style={{ marginTop: "0px" }}>
+                US$ 540
+              </div>
+              <div className="price" style={{ marginTop: "0px" }}>
+                KES 66,000
+              </div>
             </p>
 
             <p>
               We compensate our two library keepers and instructors for their
               engagements. Per year:
-              <price style={{ marginTop: "0px" }}>US$ 1,000</price>
-              <price style={{ marginTop: "0px" }}>KES 100,000</price>
+              <div className="price" style={{ marginTop: "0px" }}>
+                US$ 1,000
+              </div>
+              <div className="price" style={{ marginTop: "0px" }}>
+                KES 100,000
+              </div>
             </p>
             <p>
               Would you like to participate in keeping the library up and
@@ -65,8 +74,7 @@ const Donate = () => {
               {ourNeeds.map((needs) => (
                 <div className="item">
                   <img
-                    src=""
-                    alt=""
+                    src={images.vippsLogo}
                     className="img"
                     style={{ border: "none" }}
                   />
@@ -76,6 +84,7 @@ const Donate = () => {
                     <div className="price">US$ {needs.usd_price}</div>
                     <div className="price">KES {needs.kes_price}</div>
                   </p>
+                  <p className="content">{needs.content}</p>
                 </div>
               ))}
             </div>
@@ -90,7 +99,7 @@ const Donate = () => {
                 <a
                   className="button-design paypal"
                   id="vippsPc"
-                  href="media/donate/scanVipps.png"
+                  href={images.scanVipps}
                   target="_blank"
                 >
                   Donate through Vipps
@@ -109,7 +118,7 @@ const Donate = () => {
                 </p>
               </div>
               <img
-                src="media/donate/vipps.png"
+                src={images.vippsLogo}
                 className="img-nozoom paypal"
                 style={{ width: "15em", marginTop: "-0.6em" }}
               />
@@ -135,11 +144,21 @@ const Donate = () => {
                 </p>
               </div>
               <img
-                src="media/donate/paypal-transparent.png"
+                src={images.paypalLogo}
                 className="img-nozoom paypal"
                 style={{ width: "15em", marginBottom: "0.8em" }}
               />
             </div>
+          </div>
+
+          <br />
+
+          <div className="article">
+            <h3>Bank Transfer</h3>
+            <p>Name: Magnus Heide ENK</p>
+            <p>Account number: 9802 36 43537</p>
+            <p>Electronic/paper IBAN: NO93 9802 3643 537</p>
+            <p>Swift: DNBANOKK</p>
           </div>
         </div>
       </div>

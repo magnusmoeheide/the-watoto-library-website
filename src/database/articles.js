@@ -13,16 +13,18 @@ function getArticles(setvariable) {
 
 // Make a GET request to get articles from the database
 function getNewestArticle(setvariable) {
-  fetch('http://localhost:3001/articles/newest')
-  .then(response => response.json())
-  .then(data => {
-    setvariable(data);
-     console.log(data);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });  
+  return fetch('http://localhost:3001/articles/newest')
+    .then(response => response.json())
+    .then(data => {
+      setvariable(data);
+      console.log(data);
+      return data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
+
 
 // Make a GET request to get articles by id from the database
 function getArticlesById(articleId, setvariable) {
@@ -64,10 +66,25 @@ function getArticlesByAuthor(authorId, setvariable) {
 }
 
 
+const getArticleWithInstructor = (articleId, setvariable) => {
+  fetch(`http://localhost:3001/articles/${articleId}/instructor`)
+    .then(response => response.json())
+    .then(data => {
+      setvariable(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+
+
 export {
     getArticles, 
     getNewestArticle,
     getArticlesById,
     getArticleSectionsByArticle,
-    getArticlesByAuthor
+    getArticlesByAuthor,
+    getArticleWithInstructor
 }

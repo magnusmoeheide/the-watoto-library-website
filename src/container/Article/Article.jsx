@@ -17,6 +17,10 @@ const Article = () => {
     getArticleSections(setArticleSections);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top of the page
+  }, []);
+
   console.log("articles", articles);
 
   const { id } = useParams();
@@ -44,11 +48,13 @@ const Article = () => {
         <Side />
         <div className="main">
           <div>
-            <div className="div-back">
-              <p className="allNewsLetters">
-                <i className="fa-solid fa-arrow-left"></i>Back to Newsletters
-              </p>
-            </div>
+            <Link to="/articles">
+              <div className="div-back">
+                <p className="allNewsLetters">
+                  <i className="fa-solid fa-arrow-left"></i>Back to Newsletters
+                </p>
+              </div>
+            </Link>
           </div>
           <div className="article">
             {sectionsForArticle.map((section, index) => {
@@ -59,12 +65,16 @@ const Article = () => {
                     <h5>
                       <div className="date">
                         <i className="fa-regular fa-calendar"></i>Posted on{" "}
-                        {
+                        {new Date(
                           articles.find(
                             (article) =>
                               article.article_id === section.article_id
                           )?.publish_date
-                        }
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
                       </div>
                     </h5>
                     <p>{section.section_text}</p>
@@ -88,18 +98,21 @@ const Article = () => {
             <h3>Read More</h3>
             {Object.keys(sectionsByArticle)
               .sort((a, b) => b - a)
+              .filter((articleId, index) => index < 3)
               .map((articleId) => (
                 <div key={articleId}>
                   <div className="newsletter-wrapping">
-                    {sectionsByArticle[articleId].map((section, index) => {
-                      if (index === 0) {
-                        return (
-                          <a className="button">{section.section_header}</a>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })}
+                    <a class="button">
+                      {sectionsByArticle[articleId].map((section, index) => {
+                        if (index === 0) {
+                          return (
+                            <a className="button">{section.section_header}</a>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })}
+                    </a>
                   </div>
                 </div>
               ))}

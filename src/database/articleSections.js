@@ -12,7 +12,6 @@ function getArticleSections(setvariable) {
 }
 
 
-
 export {
     getArticleSections, 
 
