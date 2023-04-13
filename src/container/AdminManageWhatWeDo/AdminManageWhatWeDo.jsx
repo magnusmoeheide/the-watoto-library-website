@@ -3,6 +3,7 @@ import { AdminMenu } from "../../components";
 import { WordCounter } from "../../components";
 import {
   getWhatWeDo,
+  updateWwd,
   getWwdSectionsById,
   updateWwdSectionsById,
 } from "../../database";
@@ -35,14 +36,40 @@ const AdminManageWhatWeDo = () => {
     }
   }, [wwdSectionsById]);
 
+  useEffect(() => {
+    // Set default values of input fields to values in team
+    if (whatWeDo.length) {
+      const defaultValues = whatWeDo.reduce(
+        (acc, e) => ({
+          ...acc,
+          [e.id]: {
+            instructor: e.instructor,
+            opening_hours: e.opening_hours,
+            max_people: e.max_people,
+            published: e.published,
+          },
+        }),
+        {}
+      );
+      setUpdatedData(defaultValues);
+    }
+  }, [whatWeDo]);
+
   const handleWwdSelect = (event) => {
     const selectedId = event.target.value;
     setSelectedWwd(selectedId);
     getWwdSectionsById(selectedId, setWwdSectionsById);
+    const wwd = whatWeDo.find((wwd) => wwd.id === parseInt(selectedId));
+    setUpdatedData({
+      instructor: wwd.instructor,
+      opening_hours: wwd.opening_hours,
+      max_people: wwd.max_people,
+      published: wwd.published,
+    });
   };
 
   const handleSaveChanges = () => {
-    console.log("updatedData before saving:", updatedData); // Add this line
+    console.log("updatedData before saving:", updatedData);
     wwdSectionsById.forEach((section) => {
       updateWwdSectionsById(
         section.id,
@@ -51,6 +78,22 @@ const AdminManageWhatWeDo = () => {
         updatedData[section.id].section_number
       );
     });
+  };
+
+  const handleSave = async (
+    id,
+    instructor,
+    opening_hours,
+    max_people,
+    published
+  ) => {
+    const updatedValues = {
+      instructor,
+      opening_hours,
+      max_people,
+      published,
+    };
+    await updateWwd(updatedValues, id);
   };
 
   return (
@@ -93,7 +136,7 @@ const AdminManageWhatWeDo = () => {
         </tbody>
       </table>
       <br />
-
+      <button onClick={handleSaveChanges}>Save changes</button>
       <h3>Change What We Do</h3>
       <select name="" id="" onChange={handleWwdSelect}>
         <option value="">Choose an article to change</option>
@@ -103,10 +146,123 @@ const AdminManageWhatWeDo = () => {
           </option>
         ))}
       </select>
-      <p>{""}</p>
-      <button onClick={handleSaveChanges}>Save changes</button>
+
       {selectedWwd && (
         <div>
+          {whatWeDo
+            .filter((wwd) => wwd.id === parseInt(selectedWwd))
+            .map((wwd) => (
+              <div className="article">
+                <h1>{wwd.name}</h1>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>Instructor</td>
+                      <td>Opening hours</td>
+                      <td>Max people</td>
+                      <td>Published?</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <WordCounter
+                          maxLength={25}
+                          height={44}
+                          value={
+                            updatedData[wwd.id]?.instructor ?? wwd.instructor
+                          }
+                          onChange={(value) => {
+                            setUpdatedData({
+                              ...updatedData,
+                              [wwd.id]: {
+                                ...updatedData[wwd.id],
+                                instructor: value,
+                              },
+                            });
+                          }}
+                        />
+                      </td>
+
+                      <td>
+                        {" "}
+                        <WordCounter
+                          maxLength={25}
+                          height={44}
+                          value={
+                            updatedData[wwd.id]?.opening_hours ??
+                            wwd.opening_hours
+                          }
+                          onChange={(value) => {
+                            setUpdatedData({
+                              ...updatedData,
+                              [wwd.id]: {
+                                ...updatedData[wwd.id],
+                                opening_hours: value,
+                              },
+                            });
+                          }}
+                        />
+                      </td>
+
+                      <td>
+                        <WordCounter
+                          maxLength={30}
+                          height={44}
+                          value={
+                            updatedData[wwd.id]?.max_people ?? wwd.max_people
+                          }
+                          onChange={(value) => {
+                            setUpdatedData({
+                              ...updatedData,
+                              [wwd.id]: {
+                                ...updatedData[wwd.id],
+                                max_people: value,
+                              },
+                            });
+                          }}
+                        />
+                      </td>
+
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={
+                            updatedData[wwd.id]?.published ?? wwd.published
+                          }
+                          onChange={(e) => {
+                            setUpdatedData({
+                              ...updatedData,
+                              [wwd.id]: {
+                                ...updatedData[wwd.id],
+                                published: e.target.checked,
+                              },
+                            });
+                          }}
+                        />
+                      </td>
+
+                      <td>
+                        <button
+                          onClick={() =>
+                            handleSave(
+                              wwd.id,
+                              updatedData[wwd.id].instructor,
+                              updatedData[wwd.id].opening_hours,
+                              updatedData[wwd.id].max_people,
+                              updatedData[wwd.id].published
+                            )
+                          }
+                        >
+                          Save changes
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ))}
+
+          <br />
+
           {wwdSectionsById
             .sort((a, b) => a.section_number - b.section_number)
             .map((section) => (
