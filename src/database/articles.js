@@ -14,15 +14,15 @@ function getArticles(setvariable) {
 // Make a GET request to get articles from the database
 function getNewestArticle(setvariable) {
   return fetch('http://localhost:3001/articles/newest')
-    .then(response => response.json())
-    .then(data => {
-      setvariable(data);
-      console.log(data);
-      return data;
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+  .then(response => response.json())
+  .then(data => {
+    setvariable(data);
+    console.log(data);
+    return data;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
 
 

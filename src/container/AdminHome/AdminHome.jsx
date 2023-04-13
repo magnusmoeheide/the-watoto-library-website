@@ -43,18 +43,34 @@ const AdminHome = () => {
   const [authors, setAuthors] = useState([]);
   const [articles, setArticles] = useState([]);
   const [newestArticle, setNewestArticle] = useState([]);
+  const [color, setColor] = useState("black");
 
   useEffect(() => {
     getAuthors(setAuthors);
     getArticles(setArticles);
     getNewestArticle(setNewestArticle);
+    updateColor();
   }, []);
+
+  /* USING DAYS SINCE LAST ARTICLE FUNCTION */
 
   const now = new Date();
   const newestArticleDate = new Date(newestArticle);
   const daysSinceLastArticle = Math.round(
     (now.getTime() - newestArticleDate.getTime()) / 86400000
   );
+
+  useEffect(() => {
+    updateColor();
+  }, [daysSinceLastArticle]);
+
+  const updateColor = () => {
+    if (daysSinceLastArticle > 20) {
+      setColor("orange");
+    } else if (daysSinceLastArticle > 31) {
+      setColor("red");
+    }
+  };
 
   return (
     <div className="admin">
@@ -66,7 +82,11 @@ const AdminHome = () => {
       {newestArticle && (
         <>
           <p>
-            Last article created {daysSinceLastArticle} days ago, on{" "}
+            Last article created{" "}
+            <b style={{ color: color }}>
+              {daysSinceLastArticle ? daysSinceLastArticle : ""}
+            </b>{" "}
+            days ago, on{" "}
             {newestArticleDate.toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",

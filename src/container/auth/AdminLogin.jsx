@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const AdminLogin = () => {
@@ -61,9 +61,6 @@ const AdminLogin = () => {
                 <div>
                   <button onClick={onLogin}>Login</button>
                 </div>
-                <p className="text-sm text-white text-center">
-                  No account yet? <NavLink to="/signup">Sign up</NavLink>
-                </p>
               </form>
             </div>
           </div>
