@@ -43,7 +43,7 @@ const AdminManageTeam = () => {
       role,
       board,
     };
-    await updateTeam(updatedValues, id);
+    updateTeam(updatedValues, id);
   };
 
   const handleDelete = async (id) => {

@@ -40,33 +40,36 @@ const AdminManageWhatWeDo = () => {
   useEffect(() => {
     // Set default values of input fields to values in wwd
     if (whatWeDo.length) {
-      const defaultWwdValues = whatWeDo.reduce(
-        (acc, e) => ({
-          ...acc,
-          [e.id]: {
-            instructor: e.instructor,
-            opening_hours: e.opening_hours,
-            max_people: e.max_people,
-            published: e.published,
-          },
-        }),
-        {}
-      );
+      const defaultWwdValues = whatWeDo.reduce((acc, wwd) => ({
+        ...acc,
+        [wwd.id]: {
+          instructor: wwd.instructor,
+          opening_hours: wwd.opening_hours,
+          max_people: wwd.max_people,
+        },
+      }));
       setUpdatedWwd(defaultWwdValues);
     }
   }, [whatWeDo]);
+
+  console.log("fish", updatedWwd);
 
   const handleWwdSelect = (event) => {
     const selectedId = event.target.value;
     setSelectedWwd(selectedId);
     getWwdSectionsById(selectedId, setWwdSectionsById);
+
+    // If you change wwd:
     const wwd = whatWeDo.find((wwd) => wwd.id === parseInt(selectedId));
-    setUpdatedWwd({
-      instructor: wwd.instructor,
-      opening_hours: wwd.opening_hours,
-      max_people: wwd.max_people,
-      published: wwd.published,
-    });
+    setUpdatedWwd((prevUpdatedWwd) => ({
+      ...prevUpdatedWwd,
+      [selectedId]: {
+        instructor: wwd.instructor,
+        opening_hours: wwd.opening_hours,
+        max_people: wwd.max_people,
+        published: wwd.published,
+      },
+    }));
   };
 
   const handleSaveChanges = () => {
@@ -95,7 +98,7 @@ const AdminManageWhatWeDo = () => {
       max_people,
       published,
     };
-    await updateWwd(updatedWwd, id);
+    updateWwd(updatedWwd, id);
   };
 
   return (
@@ -154,7 +157,7 @@ const AdminManageWhatWeDo = () => {
           {whatWeDo
             .filter((wwd) => wwd.id === parseInt(selectedWwd))
             .map((wwd) => (
-              <div className="article">
+              <div key={wwd.id} className="article">
                 <h1>{wwd.name}</h1>
                 <table>
                   <tbody>
@@ -245,20 +248,20 @@ const AdminManageWhatWeDo = () => {
                       <td>
                         <button
                           onClick={() => {
-                            handleSave(
-                              wwd.id,
-                              updatedWwd[wwd.id].instructor,
-                              updatedWwd[wwd.id].opening_hours,
-                              updatedWwd[wwd.id].max_people,
-                              updatedWwd[wwd.id].published
-                            );
-                            console.log(
-                              "button",
-                              [wwd.id].instructor,
-                              [wwd.id].opening_hours,
-                              [wwd.id].max_people,
-                              [wwd.id].published
-                            );
+                            {
+                              console.log(
+                                "IDddd",
+                                wwd.id,
+                                updatedWwd[wwd.id].instructor
+                              );
+                              handleSave(
+                                wwd.id,
+                                updatedWwd[wwd.id].instructor,
+                                updatedWwd[wwd.id].opening_hours,
+                                updatedWwd[wwd.id].max_people,
+                                updatedWwd[wwd.id].published
+                              );
+                            }
                           }}
                         >
                           Save changes
