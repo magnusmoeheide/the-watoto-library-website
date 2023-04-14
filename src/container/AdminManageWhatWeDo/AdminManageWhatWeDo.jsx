@@ -13,6 +13,7 @@ const AdminManageWhatWeDo = () => {
   const [selectedWwd, setSelectedWwd] = useState(null);
   const [wwdSectionsById, setWwdSectionsById] = useState([]);
   const [updatedData, setUpdatedData] = useState({});
+  const [updatedWwd, setUpdatedWwd] = useState({});
 
   useEffect(() => {
     getWhatWeDo(setWhatWeDo);
@@ -37,9 +38,9 @@ const AdminManageWhatWeDo = () => {
   }, [wwdSectionsById]);
 
   useEffect(() => {
-    // Set default values of input fields to values in team
+    // Set default values of input fields to values in wwd
     if (whatWeDo.length) {
-      const defaultValues = whatWeDo.reduce(
+      const defaultWwdValues = whatWeDo.reduce(
         (acc, e) => ({
           ...acc,
           [e.id]: {
@@ -51,7 +52,7 @@ const AdminManageWhatWeDo = () => {
         }),
         {}
       );
-      setUpdatedData(defaultValues);
+      setUpdatedWwd(defaultWwdValues);
     }
   }, [whatWeDo]);
 
@@ -60,7 +61,7 @@ const AdminManageWhatWeDo = () => {
     setSelectedWwd(selectedId);
     getWwdSectionsById(selectedId, setWwdSectionsById);
     const wwd = whatWeDo.find((wwd) => wwd.id === parseInt(selectedId));
-    setUpdatedData({
+    setUpdatedWwd({
       instructor: wwd.instructor,
       opening_hours: wwd.opening_hours,
       max_people: wwd.max_people,
@@ -87,13 +88,14 @@ const AdminManageWhatWeDo = () => {
     max_people,
     published
   ) => {
-    const updatedValues = {
+    console.log("values", instructor, opening_hours, max_people, published);
+    const updatedWwd = {
       instructor,
       opening_hours,
       max_people,
       published,
     };
-    await updateWwd(updatedValues, id);
+    await updateWwd(updatedWwd, id);
   };
 
   return (
@@ -168,13 +170,13 @@ const AdminManageWhatWeDo = () => {
                           maxLength={25}
                           height={44}
                           value={
-                            updatedData[wwd.id]?.instructor ?? wwd.instructor
+                            updatedWwd[wwd.id]?.instructor ?? wwd.instructor
                           }
                           onChange={(value) => {
-                            setUpdatedData({
-                              ...updatedData,
+                            setUpdatedWwd({
+                              ...updatedWwd,
                               [wwd.id]: {
-                                ...updatedData[wwd.id],
+                                ...updatedWwd[wwd.id],
                                 instructor: value,
                               },
                             });
@@ -188,14 +190,14 @@ const AdminManageWhatWeDo = () => {
                           maxLength={25}
                           height={44}
                           value={
-                            updatedData[wwd.id]?.opening_hours ??
+                            updatedWwd[wwd.id]?.opening_hours ??
                             wwd.opening_hours
                           }
                           onChange={(value) => {
-                            setUpdatedData({
-                              ...updatedData,
+                            setUpdatedWwd({
+                              ...updatedWwd,
                               [wwd.id]: {
-                                ...updatedData[wwd.id],
+                                ...updatedWwd[wwd.id],
                                 opening_hours: value,
                               },
                             });
@@ -208,13 +210,13 @@ const AdminManageWhatWeDo = () => {
                           maxLength={30}
                           height={44}
                           value={
-                            updatedData[wwd.id]?.max_people ?? wwd.max_people
+                            updatedWwd[wwd.id]?.max_people ?? wwd.max_people
                           }
                           onChange={(value) => {
-                            setUpdatedData({
-                              ...updatedData,
+                            setUpdatedWwd({
+                              ...updatedWwd,
                               [wwd.id]: {
-                                ...updatedData[wwd.id],
+                                ...updatedWwd[wwd.id],
                                 max_people: value,
                               },
                             });
@@ -226,13 +228,13 @@ const AdminManageWhatWeDo = () => {
                         <input
                           type="checkbox"
                           checked={
-                            updatedData[wwd.id]?.published ?? wwd.published
+                            updatedWwd[wwd.id]?.published ?? wwd.published
                           }
                           onChange={(e) => {
-                            setUpdatedData({
-                              ...updatedData,
+                            setUpdatedWwd({
+                              ...updatedWwd,
                               [wwd.id]: {
-                                ...updatedData[wwd.id],
+                                ...updatedWwd[wwd.id],
                                 published: e.target.checked,
                               },
                             });
@@ -242,15 +244,22 @@ const AdminManageWhatWeDo = () => {
 
                       <td>
                         <button
-                          onClick={() =>
+                          onClick={() => {
                             handleSave(
                               wwd.id,
-                              updatedData[wwd.id].instructor,
-                              updatedData[wwd.id].opening_hours,
-                              updatedData[wwd.id].max_people,
-                              updatedData[wwd.id].published
-                            )
-                          }
+                              updatedWwd[wwd.id].instructor,
+                              updatedWwd[wwd.id].opening_hours,
+                              updatedWwd[wwd.id].max_people,
+                              updatedWwd[wwd.id].published
+                            );
+                            console.log(
+                              "button",
+                              [wwd.id].instructor,
+                              [wwd.id].opening_hours,
+                              [wwd.id].max_people,
+                              [wwd.id].published
+                            );
+                          }}
                         >
                           Save changes
                         </button>
