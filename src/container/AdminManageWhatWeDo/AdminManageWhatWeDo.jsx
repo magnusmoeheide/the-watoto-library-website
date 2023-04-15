@@ -171,7 +171,7 @@ const AdminManageWhatWeDo = () => {
                       <td>
                         <WordCounter
                           maxLength={25}
-                          height={44}
+                          height={60}
                           value={
                             updatedWwd[wwd.id]?.instructor ?? wwd.instructor
                           }
@@ -191,7 +191,7 @@ const AdminManageWhatWeDo = () => {
                         {" "}
                         <WordCounter
                           maxLength={25}
-                          height={44}
+                          height={60}
                           value={
                             updatedWwd[wwd.id]?.opening_hours ??
                             wwd.opening_hours
@@ -211,7 +211,7 @@ const AdminManageWhatWeDo = () => {
                       <td>
                         <WordCounter
                           maxLength={30}
-                          height={44}
+                          height={60}
                           value={
                             updatedWwd[wwd.id]?.max_people ?? wwd.max_people
                           }
