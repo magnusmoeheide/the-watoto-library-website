@@ -2,7 +2,7 @@ import { getArticles, getNewestArticle, getArticlesByAuthor, getArticleSectionsB
 import { getAuthors, getAuthorById } from './authors';
 import { getArticleSections } from './articleSections';
 import { getWhatWeDo, updateWwd } from './whatWeDo';
-import { getWwdSections, getWwdSectionsById, updateWwdSectionsById } from './wwdSections';
+import { getWwdSections, getWwdSectionsById, updateWwdSectionsById, createWwdSectionsById, deleteWwdSectionsById } from './wwdSections';
 import { getTeam, updateTeam, getTeamById, deleteTeam, createTeam } from './team';
 import { getOurGreatestNeeds, updateOurGreatestNeeds } from './ourGreatestNeeds';
 
@@ -24,6 +24,8 @@ export{
     getWwdSections,
     getWwdSectionsById,
     updateWwdSectionsById,
+    createWwdSectionsById,
+    deleteWwdSectionsById,
 
     getTeam,
     updateTeam,

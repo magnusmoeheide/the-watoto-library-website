@@ -6,6 +6,8 @@ import {
   updateWwd,
   getWwdSectionsById,
   updateWwdSectionsById,
+  createWwdSectionsById,
+  deleteWwdSectionsById,
 } from "../../database";
 
 const AdminManageWhatWeDo = () => {
@@ -14,6 +16,7 @@ const AdminManageWhatWeDo = () => {
   const [wwdSectionsById, setWwdSectionsById] = useState([]);
   const [updatedData, setUpdatedData] = useState({});
   const [updatedWwd, setUpdatedWwd] = useState({});
+  const [deletedSectionId, setDeletedSectionId] = useState(null);
 
   useEffect(() => {
     getWhatWeDo(setWhatWeDo);
@@ -51,8 +54,6 @@ const AdminManageWhatWeDo = () => {
       setUpdatedWwd(defaultWwdValues);
     }
   }, [whatWeDo]);
-
-  console.log("fish", updatedWwd);
 
   const handleWwdSelect = (event) => {
     const selectedId = event.target.value;
@@ -99,6 +100,31 @@ const AdminManageWhatWeDo = () => {
       published,
     };
     updateWwd(updatedWwd, id);
+  };
+
+  const handleAddSection = async () => {
+    const totalSections = wwdSectionsById.length;
+    const wwdId = Number(selectedWwd);
+    const newSection = {
+      section_header: "",
+      section_text: "",
+      section_number: totalSections + 1,
+      wwd_id: wwdId,
+    };
+    console.log("new section ", newSection);
+    const createdSection = await createWwdSectionsById(newSection, selectedWwd);
+    if (createdSection) {
+      setWwdSectionsById([...wwdSectionsById, createdSection]);
+      setWwdSectionsById((prev) => [...prev]);
+    }
+    console.log("created section: ", createdSection);
+  };
+
+  const handleDeleteSection = async (id) => {
+    await deleteWwdSectionsById(id);
+    setWwdSectionsById(wwdSectionsById.filter((section) => section.id !== id));
+    setDeletedSectionId(id);
+    console.log("id to delete: ", id);
   };
 
   return (
@@ -328,7 +354,7 @@ const AdminManageWhatWeDo = () => {
                     <b>Content</b>
                     <WordCounter
                       maxLength={500}
-                      height={200}
+                      height={150}
                       value={
                         updatedData[section.id]?.section_text ??
                         section.section_text
@@ -344,10 +370,15 @@ const AdminManageWhatWeDo = () => {
                       }}
                     />
                   </p>
+                  <button onClick={() => handleDeleteSection(section.id)}>
+                    Delete section
+                  </button>
                 </div>
                 <br />
               </div>
             ))}
+
+          <button onClick={handleAddSection}>Add Section</button>
         </div>
       )}
     </div>

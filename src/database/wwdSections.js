@@ -42,8 +42,48 @@ function updateWwdSectionsById(id, section_header, section_text, section_number)
 }
 
 
+// Make a POST request to add a new team member to the database
+const createWwdSectionsById = (section) => {
+  // Check if section.wwd_id is an integer
+  if (!Number.isInteger(section.wwd_id)) {
+    return Promise.reject(new Error('wwd_id must be an integer'));
+  }
+
+  return fetch(`${url}/wwdsections`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(section),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error creating section');
+      }
+      return response.json();
+    });
+};
+
+const deleteWwdSectionsById = (id) => {
+  // Check if id is an integer
+  if (!Number.isInteger(id)) {
+  return Promise.reject(new Error('id must be an integer'));
+  }
+  
+  return fetch(`${url}/wwdsections/${id}`, {
+  method: 'DELETE',
+  })
+  .then((response) => {
+  if (!response.ok) {
+  throw new Error('Error deleting section');
+  }
+  return response.json();
+  });
+  };
+
+
 
 export {
-    getWwdSections, getWwdSectionsById, updateWwdSectionsById
+    getWwdSections, getWwdSectionsById, updateWwdSectionsById, createWwdSectionsById, deleteWwdSectionsById
 
 }
