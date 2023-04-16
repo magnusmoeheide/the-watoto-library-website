@@ -122,8 +122,8 @@ const AdminManageWhatWeDo = () => {
 
   const handleDeleteSection = async (id) => {
     await deleteWwdSectionsById(id);
-    setWwdSectionsById(wwdSectionsById.filter((section) => section.id !== id));
     setDeletedSectionId(id);
+    setWwdSectionsById((prev) => prev.filter((section) => section.id !== id));
     console.log("id to delete: ", id);
   };
 
