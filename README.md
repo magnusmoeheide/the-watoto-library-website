@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+![Logo](https://db3pap002files.storage.live.com/y4moJ8uYuiW93prDk4qndV0dTlQxvU6Hma_nPAoKJ8pHg6qtIJ_6rJUeP5amSWNZCKwRezteG3jrJrr4X36OsHV-u48_N_5Qv0t62Tn9CH1UFtNv6jT0QKGp-mYzM0yJ2KXzHkpuIBJxL6VUz9tT4-nIFBC-R8g5_rdXg42zp7qGryxNpg7to_8eO8m08qi0L1D?encodeFailures=1&width=600&height=600)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 📚 The Watoto Library 📚
 
-## Available Scripts
+## Project Description
 
-In the project directory, you can run:
+The Watoto Library is a free library for kids in Africa's largest slum, Kibera.
 
-### `npm start`
+The website is there for sponsors and everyone who interacts with the library. It serves as a platform to tell the stories of the Kibera kids and how the library impacts their lives, as well as listing our needs and enabling people to donate.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Frameworks
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The website uses React, JavaScript, PostgreSQL, Node.js
 
-### `npm test`
+### Future
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Currently the website online is static but the goal is to have this website up and running soon.
 
-### `npm run build`
+## How to use
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The website visitors do not have any managing rights. However to manage the page, you need to manually be given an account by the website owner, then you can sign in to the admin page. To register for an admin account is not possible.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+As admin you can go to admin.thewatotolibrary.org and sign in with your email and password. Once logged in, you can do the following:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+##### - Manage articles
 
-### `npm run eject`
+##### - Manage the 'What we do' section
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+##### - Manage the 'About us' section
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##### - Manage 'Our greatest needs'
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+##### - Manage the Team
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## How to Install and Run the Project
 
-## Learn More
+To run the website locally you need the database.
+Download the database here -- and dump it to copy:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+      psql dbname < dbname.sql
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Set up RESTAPI
 
-### Code Splitting
+You also need the RESTAPI to connect the database with the frontend. Go to my repository:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    https://github.com/magnusmoeheide/twl-website-restapi
 
-### Analyzing the Bundle Size
+and clone it with this command:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+      git clone git@github.com:magnusmoeheide/twl-website-restapi.git
 
-### Making a Progressive Web App
+Open db.js and fill in the correct user, database and password for your local computer:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+![db-connection](https://ams02pap001files.storage.live.com/y4mfRqqr6gimlGmqf3g4WZw63NHQdvud2zGhtiQRJeimZomWlLTGT2g0XKLyCarTozMWaXTiGx4W0OUEsofR0xdPehyVTZwPp53ir6-SvSOl9rCYFD5CsuAEPMv7nYy4i37u-5ECA8gng3LrXgwvRZuMGC6kC6BXbK9whXQdwDxMf2KXx6r0Wlvb2uEFg-Eju57?encodeFailures=1&width=572&height=460)
 
-### Advanced Configuration
+After that run this in the terminal:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+      node server.js
 
-### Deployment
+### Set up the Project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+To set up the website itself and run it on localhost:
 
-### `npm run build` fails to minify
+##### 1. Clone the project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+        git clone git@github.com:magnusmoeheide/the-watoto-library-website.git
+
+##### 2. Go to the project directory
+
+      cd the-watoto-library-website
+
+##### 3. Install dependencies
+
+      npm install
+
+### Set up admin login
+
+Go to https://firebase.google.com/ and add a new project. Follow the steps in their guide: https://firebase.google.com/docs/auth/web/password-auth
+
+then install Firebase
+
+      npm install firebase
+
+Once you have Firebase installed and the project created in their website, go and change your firebase.js with the data in their website.
+
+![firebaseConfig](https://ams02pap001files.storage.live.com/y4mFnyIk7wnN-1JgrD0tTyXpcXq8-kgQgZKCFZk5gcLxBSbbx1_OyD-P2Nh8_UpfCRZJzT80o4seYrGV_Yjg80Kdv5iDvVuzecuQQ50eLvFM06xaHenwHtu0rTZNXukdOSZLeGkZK-C-MqJRa9XSZ883QgGJI1jYTMq3rZhrssXGrn9xojG9UIE3cqd4kvwIDR0?encodeFailures=1&width=930&height=404)
+
+Run the app
+
+      npm run start
+
+## Architecture
+
+![Architecture](https://ams02pap001files.storage.live.com/y4muIWB4iWzmejlzwTDyrovr--a3IKsnOJzgjaSQ6uk2lcUMVKTK0zjTRNiB5Prb0fSUJ12sst-LpK6zUxYiHtrmA2ZC9Z8pJPIfljhpxin4mTJc7LLuy4h6gXWZMwa7L1FLTJOlZAfSQkcFbLBqycBslR0Nzgj-0slS6YGRcu12R-lWJxL7m1zvR8DbZT0Jvkn?encodeFailures=1&width=1628&height=948)
+
+## Contact
+
+magnus.heide@code.berlin
