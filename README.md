@@ -51,7 +51,7 @@ and clone it with this command:
 
 Open db.js and fill in the correct user, database and password for your local computer:
 
-![db-connection](https://ams02pap001files.storage.live.com/y4mptQECn3ZzYC3HAVCBN6hHG8y7aN23eTu4fUwrP1cU5yRbWPwhmg6s4laUD19Dlu0b4eESqkxU8noTB2LuDXhQg_Xuec0EmjNmDb8HyELfOSWY9zsyBlmuKudPAwIYaxEM06n_mHzF-jNB0LrTnUKKExf2ykDRzxb63A_Vd8Ugo9qR5h_yiMdj60YgVy2vSoZ?encodeFailures=1&width=968&height=774)
+![db-connection](https://ams02pap001files.storage.live.com/y4mtxv5ZUijYGTdGLGklX0lFlv9jPIk75EQMZa0c3DgWfHi9K9hPY_77wA5Ve_MMUxX6cQlyzcBSCfTj5bsKUI8pRi4bT9E-qSepju9ioNowOP2wRpeMz2EYce1Y1sK24tabzGskcT3auZEUzo_HL8zLnMfrU5z3s8_swsp9mnaFXP6y8MKAAf09vmHY8hoOW01?encodeFailures=1&width=954&height=588)
 
 After that run this in the terminal:
 
