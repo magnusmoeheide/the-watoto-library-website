@@ -37,7 +37,7 @@ As admin you can go to admin.thewatotolibrary.org and sign in with your email an
 To run the website locally you need the database.
 Download the database here -- and dump it to copy:
 
-      psql dbname < dbname.sql
+      psql dbname < --dbname--.sql
 
 ### Set up RESTAPI
 
@@ -51,7 +51,7 @@ and clone it with this command:
 
 Open db.js and fill in the correct user, database and password for your local computer:
 
-![db-connection](https://ams02pap001files.storage.live.com/y4mfRqqr6gimlGmqf3g4WZw63NHQdvud2zGhtiQRJeimZomWlLTGT2g0XKLyCarTozMWaXTiGx4W0OUEsofR0xdPehyVTZwPp53ir6-SvSOl9rCYFD5CsuAEPMv7nYy4i37u-5ECA8gng3LrXgwvRZuMGC6kC6BXbK9whXQdwDxMf2KXx6r0Wlvb2uEFg-Eju57?encodeFailures=1&width=572&height=460)
+![db-connection](https://ams02pap001files.storage.live.com/y4mptQECn3ZzYC3HAVCBN6hHG8y7aN23eTu4fUwrP1cU5yRbWPwhmg6s4laUD19Dlu0b4eESqkxU8noTB2LuDXhQg_Xuec0EmjNmDb8HyELfOSWY9zsyBlmuKudPAwIYaxEM06n_mHzF-jNB0LrTnUKKExf2ykDRzxb63A_Vd8Ugo9qR5h_yiMdj60YgVy2vSoZ?encodeFailures=1&width=968&height=774)
 
 After that run this in the terminal:
 
