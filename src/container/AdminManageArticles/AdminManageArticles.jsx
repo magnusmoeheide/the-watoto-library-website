@@ -9,6 +9,7 @@ import {
   getArticleSections,
   getArticleSectionsById,
   updateArticleSectionsById,
+  deleteArticleSectionsById,
 } from "../../database";
 
 const AdminManageArticles = () => {
@@ -21,6 +22,7 @@ const AdminManageArticles = () => {
   const [articleSectionsById, setArticleSectionsById] = useState([]);
   const [updatedData, setUpdatedData] = useState({});
   const [updatedArticle, setUpdatedArticle] = useState({});
+  const [deletedSectionId, setDeletedSectionId] = useState(null);
 
   const [deletedArticleId, setDeletedArticleId] = useState(null);
 
@@ -99,6 +101,15 @@ const AdminManageArticles = () => {
   const handleDelete = async (id) => {
     await deleteArticles(id);
     setDeletedArticleId(id); // Update the state to trigger a re-render
+  };
+
+  const handleDeleteSection = async (id) => {
+    await deleteArticleSectionsById(id);
+    setDeletedSectionId(id);
+    setArticleSectionsById((prev) =>
+      prev.filter((section) => section.id !== id)
+    );
+    console.log("id to delete: ", id);
   };
 
   const filteredArticles = deletedArticleId
@@ -381,6 +392,9 @@ const AdminManageArticles = () => {
                       }}
                     />
                   </p>
+                  <button onClick={() => handleDeleteSection(section.id)}>
+                    Delete section
+                  </button>
                 </div>
                 <br />
               </div>

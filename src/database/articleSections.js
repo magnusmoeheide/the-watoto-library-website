@@ -40,9 +40,29 @@ function updateArticleSectionsById(id, section_header, section_text, section_num
     .catch(error => console.error('Error:', error));
 }
 
+const deleteArticleSectionsById = (id) => {
+  // Check if id is an integer
+  if (!Number.isInteger(id)) {
+    return Promise.reject(new Error('id must be an integer'));
+  }
+  
+  return fetch(`${url}/articlesections/${id}`, {
+    method: 'DELETE',
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Error deleting section');
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log(`Deleted ${data.length} sections for article with id ${id}`);
+    return data;
+  });
+};
 
 
 export {
-    getArticleSections, getArticleSectionsById, updateArticleSectionsById
+    getArticleSections, getArticleSectionsById, updateArticleSectionsById, deleteArticleSectionsById
 
 }
