@@ -157,7 +157,6 @@ const AdminManageWhatWeDo = () => {
   };
 
   const handleDelete = async (id) => {
-    deleteWwdSectionsById(id);
     await deleteWwd(id);
     setDeletedWwdId(id); // Update the state to trigger a re-render
   };
@@ -346,7 +345,12 @@ const AdminManageWhatWeDo = () => {
                       </td>
 
                       <td>
-                        <button onClick={() => handleDelete(wwd.id)}>
+                        <button
+                          onClick={() => handleDelete(wwd.id)}
+                          disabled={wwdSectionsById.some(
+                            (section) => section.wwd_id === wwd.id
+                          )}
+                        >
                           Delete
                         </button>
                       </td>

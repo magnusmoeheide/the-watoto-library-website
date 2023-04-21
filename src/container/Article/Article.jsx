@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import { Navbar, Footer, Side } from "../../components";
 
 import { getArticles } from "../../database";
-//import { getAuthors, getAuthorById } from "../../database";
 import { getArticleSections } from "../../database";
 
 const Article = () => {
@@ -67,8 +66,7 @@ const Article = () => {
                         <i className="fa-regular fa-calendar"></i>Posted on{" "}
                         {new Date(
                           articles.find(
-                            (article) =>
-                              article.article_id === section.article_id
+                            (article) => article.id === section.article_id
                           )?.publish_date
                         ).toLocaleDateString("en-US", {
                           year: "numeric",

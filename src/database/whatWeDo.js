@@ -2,7 +2,7 @@ import {url} from './url';
 
 // Make a GET request to get authors from the database
 function getWhatWeDo(setvariable) {
-    fetch('http://localhost:3001/whatwedo')
+    fetch(`${url}/whatwedo`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);
@@ -15,7 +15,7 @@ function getWhatWeDo(setvariable) {
 
 // get wwd with a specific id
 function getWwdById(id) {
-    fetch(`http://localhost:3001/whatwedo/${id}`, {
+    fetch(`${url}/whatwedo/${id}`, {
         method: 'GET'
     })
     .then(response => response.json())

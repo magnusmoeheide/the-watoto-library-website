@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Navbar, Footer, Side } from "../../components";
 
 import { getArticles } from "../../database";
-import { getAuthors, getAuthorById } from "../../database";
+import { getAuthors } from "../../database";
 import { getArticleSections } from "../../database";
 
 const AllArticles = () => {
@@ -21,8 +21,8 @@ const AllArticles = () => {
 
   // Add year property to sections and group by year
   const sectionsByYear = articleSections.reduce((acc, section) => {
-    const article = articles.find((a) => a.article_id === section.article_id);
-    const year = new Date(article.publish_date).getFullYear();
+    const articleId = articles.find((a) => a.id === section.article_id);
+    const year = new Date(articleId.publish_date).getFullYear();
     section.year = year;
     if (!acc[year]) {
       acc[year] = [];
@@ -68,8 +68,7 @@ const AllArticles = () => {
                         <span>
                           {new Date(
                             articles.find(
-                              (article) =>
-                                article.article_id === section.article_id
+                              (article) => article.id === section.article_id
                             )?.publish_date
                           ).toLocaleDateString("en-US", {
                             year: "numeric",
@@ -108,7 +107,7 @@ const AllArticles = () => {
                                 {new Date(
                                   articles.find(
                                     (article) =>
-                                      article.article_id === section.article_id
+                                      article.id === section.article_id
                                   )?.publish_date
                                 ).toLocaleDateString("en-US", {
                                   year: "numeric",

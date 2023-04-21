@@ -67,19 +67,24 @@ const createWwdSectionsById = (section) => {
 const deleteWwdSectionsById = (id) => {
   // Check if id is an integer
   if (!Number.isInteger(id)) {
-  return Promise.reject(new Error('id must be an integer'));
+    return Promise.reject(new Error('id must be an integer'));
   }
   
   return fetch(`${url}/wwdsections/${id}`, {
-  method: 'DELETE',
+    method: 'DELETE',
   })
   .then((response) => {
-  if (!response.ok) {
-  throw new Error('Error deleting section');
-  }
-  return response.json();
+    if (!response.ok) {
+      throw new Error('Error deleting section');
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log(`Deleted ${data.length} sections for wwd with id ${id}`);
+    return data;
   });
-  };
+};
+
 
 
 

@@ -1,6 +1,8 @@
+import {url} from './url';
+
 // Make a GET request to get articles from the database
 function getArticles(setvariable) {
-    fetch('http://localhost:3001/articles')
+    fetch(`${url}/articles`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);
@@ -13,7 +15,7 @@ function getArticles(setvariable) {
 
 // Make a GET request to get articles from the database
 function getNewestArticle(setvariable) {
-  return fetch('http://localhost:3001/articles/newest')
+  return fetch(`${url}/articles/newest`)
   .then(response => response.json())
   .then(data => {
     setvariable(data);
@@ -27,8 +29,8 @@ function getNewestArticle(setvariable) {
 
 
 // Make a GET request to get articles by id from the database
-function getArticlesById(articleId, setvariable) {
-  fetch(`http://localhost:3001/articles/${articleId}`)
+function getArticlesById(id, setvariable) {
+  fetch(`${url}/articles/${id}`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);
@@ -40,8 +42,8 @@ function getArticlesById(articleId, setvariable) {
 }
 
 // Make a GET request to get sections in article by article from the database
-function getArticleSectionsByArticle(articleId, setvariable) {
-  fetch(`http://localhost:3001/articles/${articleId}`)
+function getArticleSectionsByArticle(id, setvariable) {
+  fetch(`${url}/articles/${id}`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);
@@ -53,8 +55,8 @@ function getArticleSectionsByArticle(articleId, setvariable) {
 }
 
 // Make a GET request to get articles by authors from the database
-function getArticlesByAuthor(authorId, setvariable) {
-  fetch(`http://localhost:3001/authors/${authorId}/articles`)
+function getArticlesByAuthor(id, setvariable) {
+  fetch(`${url}/authors/${id}/articles`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);
@@ -66,8 +68,8 @@ function getArticlesByAuthor(authorId, setvariable) {
 }
 
 
-const getArticleWithInstructor = (articleId, setvariable) => {
-  fetch(`http://localhost:3001/articles/${articleId}/instructor`)
+const getArticleWithInstructor = (id, setvariable) => {
+  fetch(`${url}/articles/${id}/instructor`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);

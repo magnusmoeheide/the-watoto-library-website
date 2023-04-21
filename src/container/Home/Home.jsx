@@ -53,7 +53,7 @@ const Home = () => {
                                 {new Date(
                                   articles.find(
                                     (article) =>
-                                      article.article_id === section.article_id
+                                      article.id === section.article_id
                                   )?.publish_date
                                 ).toLocaleDateString("en-US", {
                                   year: "numeric",
