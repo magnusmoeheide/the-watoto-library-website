@@ -80,6 +80,42 @@ const getArticleWithInstructor = (id, setvariable) => {
     });
 }
 
+function updateArticles(newData, id) {
+  fetch(`${url}/articles/${id}`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+}
+
+  // Make a DELETE request to remove an article from the database
+  function deleteArticles(id) {
+    // returns a promise for asnychronous operations
+    return new Promise((resolve, reject) => {
+        fetch(`${url}/articles/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log('Success:', data);
+            resolve(data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            reject(error);
+        });
+    });
+  }
+
 
 
 export {
@@ -88,5 +124,7 @@ export {
     getArticlesById,
     getArticleSectionsByArticle,
     getArticlesByAuthor,
-    getArticleWithInstructor
+    getArticleWithInstructor,
+    updateArticles,
+    deleteArticles
 }

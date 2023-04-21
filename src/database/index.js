@@ -1,6 +1,6 @@
-import { getArticles, getNewestArticle, getArticlesByAuthor} from './articles';
+import { getArticles, getNewestArticle, getArticlesByAuthor, updateArticles, deleteArticles} from './articles';
 import { getAuthors, getAuthorById } from './authors';
-import { getArticleSections, getArticleSectionsById } from './articleSections';
+import { getArticleSections, getArticleSectionsById, updateArticleSectionsById } from './articleSections';
 import { getWhatWeDo, updateWwd, createWwd, deleteWwd } from './whatWeDo';
 import { getWwdSections, getWwdSectionsById, updateWwdSectionsById, createWwdSectionsById, deleteWwdSectionsById } from './wwdSections';
 import { getTeam, updateTeam, getTeamById, deleteTeam, createTeam } from './team';
@@ -11,9 +11,12 @@ export{
     getArticles, 
     getNewestArticle,
     getArticlesByAuthor,
+    updateArticles,
+    deleteArticles,
 
     getArticleSections,
     getArticleSectionsById,
+    updateArticleSectionsById,
     
     getAuthors,
     getAuthorById, 
