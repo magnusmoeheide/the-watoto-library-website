@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 
 import { AdminMenu } from "../../components";
 import { WordCounter } from "../../components";
-import { getArticles, updateArticles, deleteArticles } from "../../database";
+import {
+  getArticles,
+  updateArticles,
+  deleteArticles,
+  createArticles,
+} from "../../database";
 import { getAuthors } from "../../database";
 import {
   getArticleSections,
@@ -25,6 +30,11 @@ const AdminManageArticles = () => {
   const [updatedArticle, setUpdatedArticle] = useState({});
   const [deletedSectionId, setDeletedSectionId] = useState(null);
 
+  const [authorIdInputValue, setAuthorIdInputValue] = useState("");
+  const [publishDateInputValue, setPublishDateInputValue] = useState("");
+  const [editDateInputValue, setEditDateInputValue] = useState("");
+  const [publishedInputValue, setPublishedInputValue] = useState("");
+
   const [deletedArticleId, setDeletedArticleId] = useState(null);
 
   useEffect(() => {
@@ -34,7 +44,7 @@ const AdminManageArticles = () => {
   }, []);
 
   useEffect(() => {
-    // Set default values of input fields to values in wwd
+    // Set default values of input fields to values in article
     if (articleSectionsById.length) {
       const defaultValues = articleSectionsById.reduce(
         (acc, section) => ({
@@ -50,8 +60,6 @@ const AdminManageArticles = () => {
       setUpdatedData(defaultValues);
     }
   }, [articleSectionsById]);
-
-  console.log("articles", articles);
 
   const handleSaveChanges = () => {
     console.log("updatedData before saving:", updatedData);
@@ -71,26 +79,52 @@ const AdminManageArticles = () => {
     author_id,
     publish_date,
     edit_date,
-    newsletter,
     published
   ) => {
-    console.log(
-      "values",
-      author_id,
-      publish_date,
-      edit_date,
-      newsletter,
-      published
-    );
+    console.log("values", author_id, publish_date, edit_date, published);
     const updatedArticle = {
       author_id,
       publish_date,
       edit_date,
-      newsletter,
       published,
     };
     updateArticles(updatedArticle, id);
     window.location.reload();
+  };
+
+  const handleAdd = async () => {
+    const publishDate = null;
+    const editDate = null;
+    const published = false;
+
+    console.log("authorIdInputValue", authorIdInputValue);
+
+    const newArticle = await createArticles(
+      authorIdInputValue,
+      publishDate,
+      editDate,
+      published
+    );
+
+    if (newArticle) {
+      // Create the new article section
+      const newSection = {
+        section_header: "NEW ARTICLE",
+        section_text: "",
+        section_number: 1,
+        article_id: newArticle.id,
+      };
+
+      const createdSection = await createArticleSectionsById(
+        newSection,
+        newArticle.id
+      );
+      if (createdSection) {
+        setArticleSectionsById([...articleSectionsById, createdSection]);
+      }
+
+      setArticles([...articles, newArticle]);
+    }
   };
 
   const handleAddSection = async () => {
@@ -149,32 +183,31 @@ const AdminManageArticles = () => {
       <table className="adminTable">
         <tbody>
           <tr>
-            <td>Title</td>
             <td>Author</td>
             <td>Create</td>
           </tr>
           <tr>
             <td>
-              <input type="text" />
-            </td>
-
-            <td>
-              <select name="" id="">
+              <select
+                name=""
+                id=""
+                onChange={(e) => setAuthorIdInputValue(e.target.value)}
+              >
                 <option value="">Choose author</option>
                 {authors.map((author) => (
-                  <option key={author.id}>{author.name}</option>
+                  <option key={author.id} value={author.id}>
+                    {author.team_id}
+                  </option>
                 ))}
               </select>
             </td>
             <td>
-              <button>Create</button>
+              <button onClick={handleAdd}>Create</button>
             </td>
           </tr>
         </tbody>
       </table>
-      <button onClick={handleSaveChanges}>Save changes</button>
-      <h3>Articles</h3>
-
+      <h2>Article info</h2>
       <select onChange={handleArticleSelect}>
         <option value="">Select article to edit</option>
         {articleSections
@@ -199,7 +232,6 @@ const AdminManageArticles = () => {
                       <td>Author</td>
                       <td>Publish date</td>
                       <td>Edit date</td>
-                      <td>Newsletter</td>
                       <td>Published</td>
                       <td>Save</td>
                       <td>Delete</td>
@@ -270,25 +302,6 @@ const AdminManageArticles = () => {
                         <input
                           type="checkbox"
                           checked={
-                            updatedArticle[article.id]?.newsletter ??
-                            article.newsletter
-                          }
-                          onChange={(e) => {
-                            setUpdatedArticle({
-                              ...updatedArticle,
-                              [article.id]: {
-                                ...updatedArticle[article.id],
-                                newsletter: e.target.checked,
-                              },
-                            });
-                          }}
-                        />
-                      </td>
-
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={
                             updatedArticle[article.id]?.published ??
                             article.published
                           }
@@ -318,7 +331,6 @@ const AdminManageArticles = () => {
                                 updatedArticle[article.id].author_id,
                                 updatedArticle[article.id].publish_date,
                                 updatedArticle[article.id].edit_date,
-                                updatedArticle[article.id].newsletter,
                                 updatedArticle[article.id].published
                               );
                             }
@@ -345,7 +357,8 @@ const AdminManageArticles = () => {
             ))}
 
           <br />
-
+          <h2>Article</h2>
+          <button onClick={handleSaveChanges}>Save section changes</button>
           {articleSectionsById
             .sort((a, b) => a.section_number - b.section_number)
             .map((section) => (

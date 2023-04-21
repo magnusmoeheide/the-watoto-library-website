@@ -116,6 +116,27 @@ function updateArticles(newData, id) {
     });
   }
 
+  function createArticles(author_id, publish_date, edit_date, published) {
+    return fetch(`${url}/articles`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ author_id, publish_date, edit_date, published }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const article = data; // assuming data is the created article object
+        console.log('article:', article);
+        return article;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
 
 
 export {
@@ -126,5 +147,6 @@ export {
     getArticlesByAuthor,
     getArticleWithInstructor,
     updateArticles,
-    deleteArticles
+    deleteArticles,
+    createArticles
 }
