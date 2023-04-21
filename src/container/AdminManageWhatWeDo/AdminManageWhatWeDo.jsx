@@ -4,10 +4,13 @@ import { WordCounter } from "../../components";
 import {
   getWhatWeDo,
   updateWwd,
+  createWwd,
   getWwdSectionsById,
   updateWwdSectionsById,
   createWwdSectionsById,
   deleteWwdSectionsById,
+  getTeam,
+  deleteWwd,
 } from "../../database";
 
 const AdminManageWhatWeDo = () => {
@@ -18,8 +21,18 @@ const AdminManageWhatWeDo = () => {
   const [updatedWwd, setUpdatedWwd] = useState({});
   const [deletedSectionId, setDeletedSectionId] = useState(null);
 
+  const [team, setTeam] = useState([]);
+
+  const [nameInputValue, setNameInputValue] = useState("");
+  const [instructorInputValue, setInstructorInputValue] = useState("");
+  const [maxPeopleInputValue, setMaxPeopleInputValue] = useState("");
+  const [openingHoursInputValue, setOpeningHoursInputValue] = useState("");
+
+  const [deletedWwdId, setDeletedWwdId] = useState(null);
+
   useEffect(() => {
     getWhatWeDo(setWhatWeDo);
+    getTeam(setTeam);
   }, []);
 
   useEffect(() => {
@@ -54,6 +67,10 @@ const AdminManageWhatWeDo = () => {
       setUpdatedWwd(defaultWwdValues);
     }
   }, [whatWeDo]);
+
+  useEffect(() => {
+    getWhatWeDo(setWhatWeDo);
+  }, [deletedWwdId]); // Trigger the effect when a team member is deleted
 
   const handleWwdSelect = (event) => {
     const selectedId = event.target.value;
@@ -127,6 +144,28 @@ const AdminManageWhatWeDo = () => {
     console.log("id to delete: ", id);
   };
 
+  const handleAdd = async () => {
+    const newWwd = await createWwd(
+      nameInputValue,
+      instructorInputValue,
+      maxPeopleInputValue,
+      openingHoursInputValue
+    );
+    if (newWwd) {
+      setWhatWeDo([...whatWeDo, newWwd]);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    deleteWwdSectionsById(id);
+    await deleteWwd(id);
+    setDeletedWwdId(id); // Update the state to trigger a re-render
+  };
+
+  const filteredWwd = deletedWwdId
+    ? whatWeDo.filter((wwd) => wwd.id !== deletedWwdId)
+    : whatWeDo;
+
   return (
     <div className="admin">
       <h1>Admin Manage What We Do</h1>
@@ -138,30 +177,40 @@ const AdminManageWhatWeDo = () => {
             <th>Title</th>
             <th>Instructor</th>
             <th>Students</th>
-            <th>Open from</th>
-            <th>Open to</th>
+            <th>Opening hours</th>
             <th>Create</th>
           </tr>
           <tr>
             <td>
-              <input type="text" />
+              <input
+                type="text"
+                value={nameInputValue}
+                onChange={(e) => setNameInputValue(e.target.value)}
+              />
             </td>
             <td>
               <select name="" id="">
-                <option value="">Select</option>
+                {team.map((wwd) => (
+                  <option key={wwd.id}>{wwd.name}</option>
+                ))}
               </select>
             </td>
             <td>
-              <input type="number" />
-            </td>{" "}
-            <td>
-              <input type="text" />
-            </td>{" "}
-            <td>
-              <input type="text" />
+              <input
+                type="number"
+                value={maxPeopleInputValue}
+                onChange={(e) => setMaxPeopleInputValue(e.target.value)}
+              />
             </td>
             <td>
-              <button>Create</button>
+              <input
+                type="text"
+                value={openingHoursInputValue}
+                onChange={(e) => setOpeningHoursInputValue(e.target.value)}
+              />
+            </td>
+            <td>
+              <button onClick={handleAdd}>Create</button>
             </td>
           </tr>
         </tbody>
@@ -180,7 +229,7 @@ const AdminManageWhatWeDo = () => {
 
       {selectedWwd && (
         <div>
-          {whatWeDo
+          {filteredWwd
             .filter((wwd) => wwd.id === parseInt(selectedWwd))
             .map((wwd) => (
               <div key={wwd.id} className="article">
@@ -192,6 +241,8 @@ const AdminManageWhatWeDo = () => {
                       <td>Opening hours</td>
                       <td>Max people</td>
                       <td>Published?</td>
+                      <td>Save</td>
+                      <td>Delete</td>
                     </tr>
                     <tr>
                       <td>
@@ -291,6 +342,12 @@ const AdminManageWhatWeDo = () => {
                           }}
                         >
                           Save changes
+                        </button>
+                      </td>
+
+                      <td>
+                        <button onClick={() => handleDelete(wwd.id)}>
+                          Delete
                         </button>
                       </td>
                     </tr>

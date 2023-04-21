@@ -13,7 +13,6 @@ const AdminManageTeam = () => {
   const [roleInputValue, setRoleInputValue] = useState("");
   const [boardInputValue, setBoardInputValue] = useState(false);
 
-  const [teamIdToDelete, setTeamIdToDelete] = useState("");
   const [deletedTeamMemberId, setDeletedTeamMemberId] = useState(null);
 
   useEffect(() => {
