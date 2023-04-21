@@ -61,8 +61,35 @@ const deleteArticleSectionsById = (id) => {
   });
 };
 
+// Make a POST request to add a new team member to the database
+const createArticleSectionsById = (section) => {
+  // Check if section.wwd_id is an integer
+  if (!Number.isInteger(section.article_id)) {
+    return Promise.reject(new Error('article_id must be an integer'));
+  }
+
+  return fetch(`${url}/articlesections`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(section),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error creating section');
+      }
+      return response.json();
+    });
+};
+
+
 
 export {
-    getArticleSections, getArticleSectionsById, updateArticleSectionsById, deleteArticleSectionsById
+    getArticleSections, 
+    getArticleSectionsById, 
+    updateArticleSectionsById, 
+    deleteArticleSectionsById,
+    createArticleSectionsById
 
 }

@@ -10,6 +10,7 @@ import {
   getArticleSectionsById,
   updateArticleSectionsById,
   deleteArticleSectionsById,
+  createArticleSectionsById,
 } from "../../database";
 
 const AdminManageArticles = () => {
@@ -89,6 +90,28 @@ const AdminManageArticles = () => {
       published,
     };
     updateArticles(updatedArticle, id);
+    window.location.reload();
+  };
+
+  const handleAddSection = async () => {
+    const totalSections = articleSectionsById.length;
+    const articleId = Number(selectedArticle);
+    const newSection = {
+      section_header: "",
+      section_text: "",
+      section_number: totalSections + 1,
+      article_id: articleId,
+    };
+    console.log("new section ", newSection);
+    const createdSection = await createArticleSectionsById(
+      newSection,
+      selectedArticle
+    );
+    if (createdSection) {
+      setArticleSectionsById([...articleSectionsById, createdSection]);
+      setArticleSectionsById((prev) => [...prev]);
+    }
+    console.log("created section: ", createdSection);
   };
 
   const handleArticleSelect = (event) => {
@@ -399,6 +422,8 @@ const AdminManageArticles = () => {
                 <br />
               </div>
             ))}
+
+          <button onClick={handleAddSection}>Add Section</button>
         </div>
       )}
     </div>
