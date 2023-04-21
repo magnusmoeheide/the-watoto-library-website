@@ -54,20 +54,6 @@ function getArticleSectionsByArticle(id, setvariable) {
     });
 }
 
-// Make a GET request to get articles by authors from the database
-function getArticlesByAuthor(id, setvariable) {
-  fetch(`${url}/authors/${id}/articles`)
-    .then(response => response.json())
-    .then(data => {
-      setvariable(data);
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-}
-
-
 const getArticleWithInstructor = (id, setvariable) => {
   fetch(`${url}/articles/${id}/instructor`)
     .then(response => response.json())
@@ -116,13 +102,13 @@ function updateArticles(newData, id) {
     });
   }
 
-  function createArticles(author_id, publish_date, edit_date, published) {
+  function createArticles(publish_date, edit_date, published) {
     return fetch(`${url}/articles`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ author_id, publish_date, edit_date, published }),
+      body: JSON.stringify({ publish_date, edit_date, published }),
     })
       .then((response) => {
         return response.json();
@@ -144,7 +130,6 @@ export {
     getNewestArticle,
     getArticlesById,
     getArticleSectionsByArticle,
-    getArticlesByAuthor,
     getArticleWithInstructor,
     updateArticles,
     deleteArticles,

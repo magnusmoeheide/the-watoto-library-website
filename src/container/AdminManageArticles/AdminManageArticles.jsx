@@ -30,7 +30,6 @@ const AdminManageArticles = () => {
   const [updatedArticle, setUpdatedArticle] = useState({});
   const [deletedSectionId, setDeletedSectionId] = useState(null);
 
-  const [authorIdInputValue, setAuthorIdInputValue] = useState("");
   const [publishDateInputValue, setPublishDateInputValue] = useState("");
   const [editDateInputValue, setEditDateInputValue] = useState("");
   const [publishedInputValue, setPublishedInputValue] = useState("");
@@ -71,19 +70,11 @@ const AdminManageArticles = () => {
         updatedData[section.id].section_number
       );
     });
-    window.location.reload();
   };
 
-  const handleSave = async (
-    id,
-    author_id,
-    publish_date,
-    edit_date,
-    published
-  ) => {
-    console.log("values", author_id, publish_date, edit_date, published);
+  const handleSave = async (id, publish_date, edit_date, published) => {
+    console.log("values", publish_date, edit_date, published);
     const updatedArticle = {
-      author_id,
       publish_date,
       edit_date,
       published,
@@ -93,23 +84,17 @@ const AdminManageArticles = () => {
   };
 
   const handleAdd = async () => {
-    const publishDate = null;
-    const editDate = null;
+    const currentDate = new Date();
+    const publishDate = currentDate.toISOString().slice(0, 10);
+    const editDate = currentDate.toISOString().slice(0, 10);
     const published = false;
 
-    console.log("authorIdInputValue", authorIdInputValue);
-
-    const newArticle = await createArticles(
-      authorIdInputValue,
-      publishDate,
-      editDate,
-      published
-    );
+    const newArticle = await createArticles(publishDate, editDate, published);
 
     if (newArticle) {
       // Create the new article section
       const newSection = {
-        section_header: "NEW ARTICLE",
+        section_header: "NEW ARTICLE (change this title)",
         section_text: "",
         section_number: 1,
         article_id: newArticle.id,
@@ -125,6 +110,7 @@ const AdminManageArticles = () => {
 
       setArticles([...articles, newArticle]);
     }
+    window.location.reload();
   };
 
   const handleAddSection = async () => {
@@ -158,6 +144,7 @@ const AdminManageArticles = () => {
   const handleDelete = async (id) => {
     await deleteArticles(id);
     setDeletedArticleId(id); // Update the state to trigger a re-render
+    window.location.reload();
   };
 
   const handleDeleteSection = async (id) => {
@@ -180,33 +167,8 @@ const AdminManageArticles = () => {
       <br />
       <h3>Create new Article</h3>
 
-      <table className="adminTable">
-        <tbody>
-          <tr>
-            <td>Author</td>
-            <td>Create</td>
-          </tr>
-          <tr>
-            <td>
-              <select
-                name=""
-                id=""
-                onChange={(e) => setAuthorIdInputValue(e.target.value)}
-              >
-                <option value="">Choose author</option>
-                {authors.map((author) => (
-                  <option key={author.id} value={author.id}>
-                    {author.team_id}
-                  </option>
-                ))}
-              </select>
-            </td>
-            <td>
-              <button onClick={handleAdd}>Create</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <button onClick={handleAdd}>Create</button>
+
       <h2>Article info</h2>
       <select onChange={handleArticleSelect}>
         <option value="">Select article to edit</option>
@@ -229,7 +191,6 @@ const AdminManageArticles = () => {
                 <table>
                   <tbody>
                     <tr>
-                      <td>Author</td>
                       <td>Publish date</td>
                       <td>Edit date</td>
                       <td>Published</td>
@@ -237,26 +198,6 @@ const AdminManageArticles = () => {
                       <td>Delete</td>
                     </tr>
                     <tr>
-                      <td>
-                        <WordCounter
-                          maxLength={25}
-                          height={60}
-                          value={
-                            updatedArticle[article.id]?.author_id ??
-                            article.author_id
-                          }
-                          onChange={(value) => {
-                            setUpdatedArticle({
-                              ...updatedArticle,
-                              [article.id]: {
-                                ...updatedArticle[article.id],
-                                author_id: value,
-                              },
-                            });
-                          }}
-                        />
-                      </td>
-
                       <td>
                         {" "}
                         <WordCounter
@@ -321,14 +262,8 @@ const AdminManageArticles = () => {
                         <button
                           onClick={() => {
                             {
-                              console.log(
-                                "IDddd",
-                                article.id,
-                                updatedArticle[article.id].author_id
-                              );
                               handleSave(
                                 article.id,
-                                updatedArticle[article.id].author_id,
                                 updatedArticle[article.id].publish_date,
                                 updatedArticle[article.id].edit_date,
                                 updatedArticle[article.id].published

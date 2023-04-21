@@ -20,10 +20,13 @@ const Home = () => {
 
   // Group sections by article ID
   const sectionsByArticle = articleSections.reduce((acc, section) => {
-    if (!acc[section.article_id]) {
-      acc[section.article_id] = [];
+    const article = articles.find((a) => a.id === section.article_id);
+    if (article && article.published === true) {
+      if (!acc[section.article_id]) {
+        acc[section.article_id] = [];
+      }
+      acc[section.article_id].push(section);
     }
-    acc[section.article_id].push(section);
     return acc;
   }, {});
 
