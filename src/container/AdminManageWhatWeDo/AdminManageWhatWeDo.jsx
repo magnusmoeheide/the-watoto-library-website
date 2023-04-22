@@ -91,6 +91,7 @@ const AdminManageWhatWeDo = () => {
   };
 
   const handleSaveChanges = () => {
+    window.location.reload();
     console.log("updatedData before saving:", updatedData);
     wwdSectionsById.forEach((section) => {
       updateWwdSectionsById(
@@ -439,6 +440,7 @@ const AdminManageWhatWeDo = () => {
               </div>
             ))}
 
+          <button onClick={handleSaveChanges}>Save changes</button>
           <button onClick={handleAddSection}>Add Section</button>
         </div>
       )}

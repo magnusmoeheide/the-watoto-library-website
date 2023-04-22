@@ -61,6 +61,7 @@ const AdminManageArticles = () => {
   }, [articleSectionsById]);
 
   const handleSaveChanges = () => {
+    window.location.reload();
     console.log("updatedData before saving:", updatedData);
     articleSectionsById.forEach((section) => {
       updateArticleSectionsById(
