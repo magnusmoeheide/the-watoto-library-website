@@ -54,7 +54,6 @@ const AdminHome = () => {
     getArticles(setArticles);
     getNewestArticle(setNewestArticle);
     updateColor();
-    getNewestArticles(setNewestArticles);
   }, []);
 
   /* USING DAYS SINCE LAST ARTICLE FUNCTION */
@@ -104,13 +103,6 @@ const AdminHome = () => {
         </>
       )}
       <br />
-      <h3>Most recent articles</h3>
-      {newestArticles.map((article) => (
-        <div key={article.id}>
-          <h2>{article.section_header}</h2>
-          <p>{article.publish_date}</p>
-        </div>
-      ))}
     </div>
   );
 };
