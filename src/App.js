@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { 
-  Home, Article, Articles, WhatWeDo, GetInTouch, Donate, WwdArticle,
+  Home, Article, Articles, WhatWeDo, GetInTouch, Donate, WwdArticle, About,
   
   AdminLogin,
   AdminHome, 
@@ -29,6 +29,7 @@ function App() {
             <Route path="/WhatWeDo" element={<WhatWeDo/>}/> 
             <Route path="/WhatWeDo/:id" element={<WwdArticle/>}/> 
             <Route path="/GetInTouch" element={<GetInTouch/>}/> 
+            <Route path="/About" element={<About/>}/> 
             <Route path="/Donate" element={<Donate/>}/> 
 
             <Route path="/AdminLogin" element={<AdminLogin/>}/> 

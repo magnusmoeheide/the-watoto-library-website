@@ -93,6 +93,7 @@ function updateArticles(newData, id) {
         .then(response => response.text())
         .then(data => {
             console.log('Success:', data);
+            console.log(`Article with ID ${id} has been deleted.`); // Add this line
             resolve(data);
         })
         .catch((error) => {
@@ -100,7 +101,8 @@ function updateArticles(newData, id) {
             reject(error);
         });
     });
-  }
+}
+
 
   function createArticles(publish_date, edit_date, published) {
     return fetch(`${url}/articles`, {
@@ -123,6 +125,19 @@ function updateArticles(newData, id) {
       });
   }
 
+  function getNewestArticles(setVariable) {
+    return fetch(`${url}/articles/newestarticles`)
+      .then(response => response.json())
+      .then(data => {
+        setVariable(data);
+        console.log(data);
+        return data;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
 
 
 export {
@@ -133,5 +148,7 @@ export {
     getArticleWithInstructor,
     updateArticles,
     deleteArticles,
-    createArticles
+    createArticles,
+
+    getNewestArticles
 }

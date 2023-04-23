@@ -155,6 +155,14 @@ const AdminManageArticles = () => {
       prev.filter((section) => section.id !== id)
     );
     console.log("id to delete: ", id);
+
+    // Check if the article has any sections left
+    if (articleSectionsById.length === 1) {
+      // If the article has only one section left, delete the article
+      await deleteArticles(articleSectionsById[0].article_id);
+      setDeletedArticleId(articleSectionsById[0].article_id);
+      setSelectedArticle(null);
+    }
   };
 
   const filteredArticles = deletedArticleId

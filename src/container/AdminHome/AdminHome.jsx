@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { AdminMenu } from "../../components";
-import { getArticles, getNewestArticle } from "../../database";
+import {
+  getArticles,
+  getNewestArticle,
+  getNewestArticles,
+} from "../../database";
 import { getAuthors, getAuthorById } from "../../database";
-import { getArticleSections } from "../../database";
 
 import { signOut } from "firebase/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -43,6 +46,7 @@ const AdminHome = () => {
   const [authors, setAuthors] = useState([]);
   const [articles, setArticles] = useState([]);
   const [newestArticle, setNewestArticle] = useState([]);
+  const [newestArticles, setNewestArticles] = useState([]);
   const [color, setColor] = useState("black");
 
   useEffect(() => {
@@ -50,12 +54,14 @@ const AdminHome = () => {
     getArticles(setArticles);
     getNewestArticle(setNewestArticle);
     updateColor();
+    getNewestArticles(setNewestArticles);
   }, []);
 
   /* USING DAYS SINCE LAST ARTICLE FUNCTION */
 
   const now = new Date();
-  const newestArticleDate = new Date(newestArticle);
+  now.setHours(0, 0, 0, 0);
+  const newestArticleDate = new Date(newestArticle + "Z");
   const daysSinceLastArticle = Math.round(
     (now.getTime() - newestArticleDate.getTime()) / 86400000
   );
@@ -84,9 +90,9 @@ const AdminHome = () => {
           <p>
             Last article created{" "}
             <b style={{ color: color }}>
-              {daysSinceLastArticle ? daysSinceLastArticle : ""}
+              {daysSinceLastArticle === 0 ? "today" : daysSinceLastArticle}
             </b>{" "}
-            days ago, on{" "}
+            {daysSinceLastArticle === 0 ? "" : "days ago, on "}
             {newestArticleDate.toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
@@ -97,6 +103,14 @@ const AdminHome = () => {
           </p>
         </>
       )}
+      <br />
+      <h3>Most recent articles</h3>
+      {newestArticles.map((article) => (
+        <div key={article.id}>
+          <h2>{article.section_header}</h2>
+          <p>{article.publish_date}</p>
+        </div>
+      ))}
     </div>
   );
 };

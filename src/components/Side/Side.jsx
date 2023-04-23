@@ -18,15 +18,15 @@ const Side = () => {
         </p>
         <p>
           A place where kids can come in, feel good about themselves,
-          <span>trust</span> and <span>understand</span> one another.
+          <span> trust</span> and <span>understand</span> one another.
         </p>
         <p>
           Imagine a place that believes that each child has a
-          <span>potential</span> and <span>purpose</span>.
+          <span> potential</span> and <span>purpose</span>.
         </p>
         <p>
           It is our duty to remind them that they are <span>loved</span> and
-          <span>seen</span> for who they are.
+          <span> seen</span> for who they are.
         </p>
         <p>
           I imagine of <span className="notranslate">The Watoto Library</span>.
@@ -45,7 +45,7 @@ const Side = () => {
         <h3>Our Mission</h3>
         <p>
           The principle goal of
-          <span className="notranslate">The Watoto Library </span>is to have an
+          <span className="notranslate"> The Watoto Library </span>is to have an
           impact on the lives of many kids living with the traumas of poverty,
           faced by domestic violence, denied or not provided with the space to
           express their thoughts and feelings.

@@ -37,8 +37,8 @@ const Navbar = () => {
           <Link to="/whatwedo">WHAT WE DO</Link>
         </li>
 
-        <li className={isActive("/aboutus")}>
-          <Link to="/">ABOUT US</Link>
+        <li className={isActive("/about")}>
+          <Link to="/about">ABOUT US</Link>
         </li>
 
         <li className={isActive("/getintouch")}>
