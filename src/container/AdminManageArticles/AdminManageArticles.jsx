@@ -28,19 +28,37 @@ const AdminManageArticles = () => {
   const [articleSectionsById, setArticleSectionsById] = useState([]);
   const [updatedData, setUpdatedData] = useState({});
   const [updatedArticle, setUpdatedArticle] = useState({});
+  const [publishedDate, setPublishedDate] = useState(undefined);
   const [deletedSectionId, setDeletedSectionId] = useState(null);
 
-  const [publishDateInputValue, setPublishDateInputValue] = useState("");
+  const [deletedArticleId, setDeletedArticleId] = useState(null);
+
+  const [publishDateInputValue, setPublishDateInputValue] = useState(
+    new Date().toISOString()
+  );
   const [editDateInputValue, setEditDateInputValue] = useState("");
   const [publishedInputValue, setPublishedInputValue] = useState("");
-
-  const [deletedArticleId, setDeletedArticleId] = useState(null);
 
   useEffect(() => {
     getAuthors(setAuthors);
     getArticles(setArticles);
     getArticleSections(setArticleSections);
   }, []);
+
+  useEffect(() => {
+    // Set default values of input fields to values in article
+    if (selectedArticle) {
+      const publishDate = new Date(selectedArticle.publish_date);
+      setPublishDateInputValue(publishDate);
+    }
+    const test = articles.filter((article) => {
+      if (article.id === selectedArticle) {
+        console.log(article);
+        return article;
+      }
+    });
+    console.log(selectedArticle, articles, test);
+  }, [selectedArticle, updatedArticle]);
 
   useEffect(() => {
     // Set default values of input fields to values in article
@@ -74,14 +92,16 @@ const AdminManageArticles = () => {
   };
 
   const handleSave = async (id, publish_date, edit_date, published) => {
-    console.log("values", publish_date, edit_date, published);
+    const publishDate = new Date(publish_date); // convert to Date object
+    const editDate = new Date(); // set edit_date to today's date in ISO format
+
     const updatedArticle = {
-      publish_date,
-      edit_date,
-      published,
+      publish_date: publishDate, // convert back to ISO format
+      edit_date: editDate,
+      published: published,
     };
+
     updateArticles(updatedArticle, id);
-    window.location.reload();
   };
 
   const handleAdd = async () => {
@@ -165,6 +185,12 @@ const AdminManageArticles = () => {
     }
   };
 
+  const updatePublishedDate = (date, article) => {
+    article.publish_date = date + "T00:00:00.000Z";
+    //article.publish_date = date;
+    console.log(article, articles);
+  };
+
   const filteredArticles = deletedArticleId
     ? articles.filter((article) => article.id !== deletedArticleId)
     : articles;
@@ -208,43 +234,47 @@ const AdminManageArticles = () => {
                     </tr>
                     <tr>
                       <td>
-                        {" "}
-                        <WordCounter
-                          maxLength={25}
-                          height={60}
+                        <input
+                          type="date"
                           value={
-                            updatedArticle[article.id]?.publish_date ??
-                            article.publish_date
+                            updatedArticle[article.id]?.publish_date
+                              ? updatedArticle[article.id].publish_date.substr(
+                                  0,
+                                  10
+                                )
+                              : article.publish_date?.substr(0, 10)
+                            //article.publish_date
                           }
-                          onChange={(value) => {
+                          onChange={(event) => {
+                            setPublishedDate(event.target.value);
+                            //updatePublishedDate(event.target.value, article);
+                            // (article.publish_date =
+                            //   event.target.value + "T00:00:00.000Z"),
+                            //   console.log(article, article.publish_date);
+
                             setUpdatedArticle({
                               ...updatedArticle,
                               [article.id]: {
                                 ...updatedArticle[article.id],
-                                publish_date: value,
                               },
+                              publish_date:
+                                event.target.value + "T00:00:00.000Z",
                             });
                           }}
                         />
                       </td>
 
                       <td>
-                        <WordCounter
-                          maxLength={30}
-                          height={60}
+                        <input
+                          type="date"
                           value={
-                            updatedArticle[article.id]?.edit_date ??
-                            article.edit_date
+                            updatedArticle[article.id]?.edit_date
+                              ? updatedArticle[article.id].edit_date.substr(
+                                  0,
+                                  10
+                                )
+                              : article.edit_date?.substr(0, 10)
                           }
-                          onChange={(value) => {
-                            setUpdatedArticle({
-                              ...updatedArticle,
-                              [article.id]: {
-                                ...updatedArticle[article.id],
-                                edit_date: value,
-                              },
-                            });
-                          }}
                         />
                       </td>
 
@@ -270,17 +300,22 @@ const AdminManageArticles = () => {
                       <td>
                         <button
                           onClick={() => {
-                            {
-                              handleSave(
-                                article.id,
-                                updatedArticle[article.id].publish_date,
-                                updatedArticle[article.id].edit_date,
-                                updatedArticle[article.id].published
-                              );
-                            }
+                            console.log(
+                              article,
+
+                              publishedDate
+                            );
+                            // {
+                            //   handleSave(
+                            //     article.id,
+                            //     updatedArticle[article.id].publish_date,
+                            //     updatedArticle[article.id].edit_date,
+                            //     updatedArticle[article.id].published
+                            //   );
+                            // }
                           }}
                         >
-                          Save changes
+                          {`Save changes${article.publish_date}`}
                         </button>
                       </td>
 

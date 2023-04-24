@@ -5,7 +5,7 @@ import { AdminMenu } from "../../components";
 import {
   getArticles,
   getNewestArticle,
-  getNewestArticles,
+  getArticlesWithFirstSection,
 } from "../../database";
 import { getAuthors, getAuthorById } from "../../database";
 
@@ -46,13 +46,13 @@ const AdminHome = () => {
   const [authors, setAuthors] = useState([]);
   const [articles, setArticles] = useState([]);
   const [newestArticle, setNewestArticle] = useState([]);
-  const [newestArticles, setNewestArticles] = useState([]);
+  const [articlesWithFirstSection, setArticlesWithFirstSection] = useState([]);
   const [color, setColor] = useState("black");
 
   useEffect(() => {
     getAuthors(setAuthors);
     getArticles(setArticles);
-    getNewestArticle(setNewestArticle);
+    getArticlesWithFirstSection(setArticlesWithFirstSection);
     updateColor();
   }, []);
 
@@ -103,6 +103,32 @@ const AdminHome = () => {
         </>
       )}
       <br />
+      <table className="adminTable">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <th>Publish date</th>
+            <th>Title</th>
+            <th>Published</th>
+          </tr>
+
+          {articlesWithFirstSection.map((article) => (
+            <tr key={article.id}>
+              <td>{article.article_id}</td>
+              <td>
+                {new Date(article.publish_date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "UTC",
+                })}
+              </td>
+              <td>{article.section_header}</td>
+              <td>{article.published ? "Yes" : "No"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -30,7 +30,7 @@ function getNewestArticle(setvariable) {
 
 // Make a GET request to get articles by id from the database
 function getArticlesById(id, setvariable) {
-  fetch(`${url}/articles/${id}`)
+  fetch(`${url}/articles/byid/${id}`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);
@@ -125,8 +125,8 @@ function updateArticles(newData, id) {
       });
   }
 
-  function getNewestArticles(setVariable) {
-    return fetch(`${url}/articles/newestarticles`)
+  function getArticlesWithFirstSection(setVariable) {
+    return fetch(`${url}/articles/firstsection`)
       .then(response => response.json())
       .then(data => {
         setVariable(data);
@@ -150,5 +150,5 @@ export {
     deleteArticles,
     createArticles,
 
-    getNewestArticles
+    getArticlesWithFirstSection
 }

@@ -12,7 +12,7 @@ const WordCounter = ({ maxLength, value, onChange, height }) => {
   };
 
   return (
-    <>
+    <div>
       <textarea
         type="text"
         value={value}
@@ -22,7 +22,7 @@ const WordCounter = ({ maxLength, value, onChange, height }) => {
       <div className="counter">
         {count}/{maxLength} characters
       </div>
-    </>
+    </div>
   );
 };
 
