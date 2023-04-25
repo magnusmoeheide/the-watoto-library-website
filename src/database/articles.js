@@ -138,6 +138,19 @@ function updateArticles(newData, id) {
       });
   }
 
+  function getArticlesWithAuthors(setVariable) {
+    return fetch(`${url}/articles/authors`)
+      .then(response => response.json())
+      .then(data => {
+        setVariable(data);
+        console.log(data);
+        return data;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
 
 
 export {
@@ -150,5 +163,6 @@ export {
     deleteArticles,
     createArticles,
 
-    getArticlesWithFirstSection
+    getArticlesWithFirstSection,
+    getArticlesWithAuthors
 }

@@ -8,6 +8,7 @@ import {
   updateArticles,
   deleteArticles,
   createArticles,
+  getArticlesWithAuthors,
 } from "../../database";
 import { getAuthors } from "../../database";
 import {
@@ -23,6 +24,7 @@ const AdminManageArticles = () => {
 
   const [articles, setArticles] = useState([]);
   const [articleSections, setArticleSections] = useState([]);
+  const [articlesWithAuthors, setArticlesWithAuthors] = useState([]);
 
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [articleSectionsById, setArticleSectionsById] = useState([]);
@@ -42,6 +44,7 @@ const AdminManageArticles = () => {
   useEffect(() => {
     getAuthors(setAuthors);
     getArticles(setArticles);
+    getArticlesWithAuthors(setArticlesWithAuthors);
     getArticleSections(setArticleSections);
   }, []);
 
@@ -332,6 +335,26 @@ const AdminManageArticles = () => {
                     </tr>
                   </tbody>
                 </table>
+                <br />
+                <h2>Authors</h2>
+                {articlesWithAuthors
+                  .filter(
+                    (article) =>
+                      article.article_id === parseInt(selectedArticle)
+                  )
+                  .map((article) => (
+                    <div key={article.name}>
+                      <p>{article.team_name}</p>
+                    </div>
+                  ))}
+                {
+                  <select name="" id="">
+                    {authors.map((author) => (
+                      <option value={author.team_id}>{author.name}</option>
+                    ))}
+                  </select>
+                }
+                <button>Add author</button>
               </div>
             ))}
 

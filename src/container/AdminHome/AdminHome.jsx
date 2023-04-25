@@ -21,7 +21,7 @@ const AdminHome = () => {
       // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
       // ...
-      console.log("uid", uid);
+      //console.log("uid", uid);
     } else {
       // User is signed out
       // ...
@@ -52,6 +52,7 @@ const AdminHome = () => {
   useEffect(() => {
     getAuthors(setAuthors);
     getArticles(setArticles);
+    getNewestArticle(setNewestArticle);
     getArticlesWithFirstSection(setArticlesWithFirstSection);
     updateColor();
   }, []);
@@ -64,6 +65,8 @@ const AdminHome = () => {
   const daysSinceLastArticle = Math.round(
     (now.getTime() - newestArticleDate.getTime()) / 86400000
   );
+
+  console.log("newest article", newestArticle);
 
   useEffect(() => {
     updateColor();
@@ -84,6 +87,7 @@ const AdminHome = () => {
       <button onClick={handleLogout}>Logout</button>
       <h3>Stats</h3>
       <p>Articles created: {articles.length}</p>
+
       {newestArticle && (
         <>
           <p>
