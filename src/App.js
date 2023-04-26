@@ -16,12 +16,29 @@ import {
 import './App.css';
 import './articles.css';
 import {Routes, Route} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
+import { AuthContext } from './context/AuthContext';
 
 function App() {
 
+  const [authUser, setAuthUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAuthUser(user);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+
   return (
     <div className="App">
- 
+       <AuthContext.Provider value={authUser}>
         <Routes>
             <Route exact path="/" element={<Home/>}/>
             <Route path="/Articles/:id" element={<Article/>}/> 
@@ -39,6 +56,7 @@ function App() {
             <Route path="/AdminManageTeam" element={<AdminManageTeam/>}/> 
             <Route path="/AdminManageWhatWeDo" element={<AdminManageWhatWeDo/>}/> 
         </Routes>
+        </AuthContext.Provider>
     </div>
   );
 }

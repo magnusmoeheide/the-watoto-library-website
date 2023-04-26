@@ -51,6 +51,20 @@ const AdminManageArticles = () => {
   }, []);
 
   useEffect(() => {
+    // initialize updatedArticle state with the data from the database
+    const initialUpdatedArticle = {};
+    articles.forEach((article) => {
+      initialUpdatedArticle[article.id] = {
+        publish_date: article.publish_date,
+        edit_date: article.edit_date,
+
+        published: article.published,
+      };
+    });
+    setUpdatedArticle(initialUpdatedArticle);
+  }, [articles]);
+
+  useEffect(() => {
     // Set default values of input fields to values in article
     if (selectedArticle) {
       const publishDate = new Date(selectedArticle.publish_date);
@@ -98,6 +112,7 @@ const AdminManageArticles = () => {
 
   const handleSave = async (id, publish_date, edit_date, published) => {
     const publishDate = new Date(publish_date); // convert to Date object
+    console.log("publishDate", publishDate, "publish_date", publish_date);
     const editDate = new Date(); // set edit_date to today's date in ISO format
 
     const updatedArticle = {
@@ -262,22 +277,21 @@ const AdminManageArticles = () => {
                                   10
                                 )
                               : article.publish_date?.substr(0, 10)
-                            //article.publish_date
                           }
                           onChange={(event) => {
+                            const date = new Date(event.target.value);
+                            const isoDate =
+                              date.toISOString().substr(0, 10) +
+                              "T00:00:00.000Z";
+
                             setPublishedDate(event.target.value);
-                            //updatePublishedDate(event.target.value, article);
-                            // (article.publish_date =
-                            //   event.target.value + "T00:00:00.000Z"),
-                            //   console.log(article, article.publish_date);
 
                             setUpdatedArticle({
                               ...updatedArticle,
                               [article.id]: {
                                 ...updatedArticle[article.id],
+                                publish_date: isoDate,
                               },
-                              publish_date:
-                                event.target.value + "T00:00:00.000Z",
                             });
                           }}
                         />
@@ -300,6 +314,14 @@ const AdminManageArticles = () => {
                       <td>
                         <input
                           type="checkbox"
+                          value={
+                            updatedArticle[article.id]?.publish_date
+                              ? updatedArticle[article.id].publish_date.substr(
+                                  0,
+                                  10
+                                )
+                              : article.publish_date?.substr(0, 10)
+                          }
                           checked={
                             updatedArticle[article.id]?.published ??
                             article.published
@@ -324,17 +346,17 @@ const AdminManageArticles = () => {
 
                               publishedDate
                             );
-                            // {
-                            //   handleSave(
-                            //     article.id,
-                            //     updatedArticle[article.id].publish_date,
-                            //     updatedArticle[article.id].edit_date,
-                            //     updatedArticle[article.id].published
-                            //   );
-                            // }
+                            {
+                              handleSave(
+                                article.id,
+                                updatedArticle[article.id].publish_date,
+                                updatedArticle[article.id].edit_date,
+                                updatedArticle[article.id].published
+                              );
+                            }
                           }}
                         >
-                          {`Save changes${article.publish_date}`}
+                          Save changes
                         </button>
                       </td>
 

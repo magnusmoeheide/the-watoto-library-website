@@ -18,10 +18,11 @@ const Home = () => {
     getArticleSections(setArticleSections);
   }, []);
 
-  // Group sections by article ID
+  // Group sections by article ID and display if published
   const sectionsByArticle = articleSections.reduce((acc, section) => {
     const article = articles.find((a) => a.id === section.article_id);
-    if (article && article.published === true) {
+    if (article && article.published === true && section.section_number == 1) {
+      // Include a sort by publish date here once save publish date is fixed
       if (!acc[section.article_id]) {
         acc[section.article_id] = [];
       }
@@ -38,7 +39,7 @@ const Home = () => {
         <div className="main">
           {Object.keys(sectionsByArticle)
             .sort((a, b) => b - a)
-            .slice(0, 4)
+            //.slice(0, 4)
             .map((articleId) => (
               <div key={articleId}>
                 <br />

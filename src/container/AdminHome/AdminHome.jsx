@@ -6,6 +6,7 @@ import {
   getArticles,
   getNewestArticle,
   getArticlesWithFirstSection,
+  getWhatWeDo,
 } from "../../database";
 import { getAuthors, getAuthorById } from "../../database";
 
@@ -15,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 
 const AdminHome = () => {
   const auth = getAuth();
+  const navigate = useNavigate();
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
@@ -23,13 +26,11 @@ const AdminHome = () => {
       // ...
       //console.log("uid", uid);
     } else {
-      // User is signed out
+      navigate("/");
       // ...
       console.log("user is logged out");
     }
   });
-
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     signOut(auth)
@@ -43,6 +44,7 @@ const AdminHome = () => {
       });
   };
 
+  const [whatWeDo, setWhatWeDo] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [articles, setArticles] = useState([]);
   const [newestArticle, setNewestArticle] = useState([]);
@@ -55,15 +57,24 @@ const AdminHome = () => {
     getNewestArticle(setNewestArticle);
     getArticlesWithFirstSection(setArticlesWithFirstSection);
     updateColor();
+    getWhatWeDo(setWhatWeDo);
   }, []);
 
   /* USING DAYS SINCE LAST ARTICLE FUNCTION */
 
   const now = new Date();
-  now.setHours(0, 0, 0, 0);
+  const midnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    0,
+    0,
+    0,
+    0
+  );
   const newestArticleDate = new Date(newestArticle + "Z");
   const daysSinceLastArticle = Math.round(
-    (now.getTime() - newestArticleDate.getTime()) / 86400000
+    (midnight.getTime() - newestArticleDate.getTime()) / 86400000
   );
 
   console.log("newest article", newestArticle);
@@ -91,44 +102,95 @@ const AdminHome = () => {
       {newestArticle && (
         <>
           <p>
-            Last article created{" "}
-            <b style={{ color: color }}>
-              {daysSinceLastArticle === 0 ? "today" : daysSinceLastArticle}
-            </b>{" "}
-            {daysSinceLastArticle === 0 ? "" : "days ago, on "}
-            {newestArticleDate.toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              timeZone: "UTC",
-            })}
-            .
-          </p>
-        </>
-      )}
-      <br />
-      <table className="adminTable">
-        <tbody>
-          <tr>
-            <th>ID</th>
-            <th>Publish date</th>
-            <th>Title</th>
-            <th>Published</th>
-          </tr>
-
-          {articlesWithFirstSection.map((article) => (
-            <tr key={article.id}>
-              <td>{article.article_id}</td>
-              <td>
-                {new Date(article.publish_date).toLocaleDateString("en-US", {
+            {daysSinceLastArticle < 0 ? (
+              <span>
+                Newest article set to be published in{" "}
+                <b>{Math.abs(daysSinceLastArticle)}</b> days, on{" "}
+                {newestArticleDate.toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
                   timeZone: "UTC",
                 })}
-              </td>
-              <td>{article.section_header}</td>
-              <td>{article.published ? "Yes" : "No"}</td>
+              </span>
+            ) : (
+              <>
+                Last article published{" "}
+                <b style={{ color: color }}>
+                  {daysSinceLastArticle === 0 ? "today" : daysSinceLastArticle}
+                </b>{" "}
+                {daysSinceLastArticle === 0 ? "" : "days ago, on "}
+                {newestArticleDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "UTC",
+                })}
+                .
+              </>
+            )}
+          </p>
+        </>
+      )}
+      <br />
+      <br />
+
+      <h3>Articles</h3>
+      <table className="adminTable">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <th>Publish date</th>
+            <th>Edit date</th>
+            <th>Title</th>
+            <th>Published</th>
+          </tr>
+
+          {articlesWithFirstSection
+            .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date))
+            .map((article) => (
+              <tr key={article.id}>
+                <td>{article.article_id}</td>
+                <td>
+                  {new Date(article.publish_date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    timeZone: "Europe/Berlin",
+                  })}
+                </td>
+                <td>
+                  {new Date(article.edit_date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    timeZone: "Europe/Berlin",
+                  })}
+                </td>
+                <td>{article.section_header}</td>
+                <td>{article.published ? "✅" : "❌"}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+
+      <br />
+      <br />
+      <h3>What We Do</h3>
+      <table className="adminTable">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Published</th>
+          </tr>
+
+          {whatWeDo.map((wwd) => (
+            <tr key={wwd.id}>
+              <td>{wwd.id}</td>
+
+              <td>{wwd.name}</td>
+              <td>{wwd.published ? "✅" : "❌"}</td>
             </tr>
           ))}
         </tbody>
