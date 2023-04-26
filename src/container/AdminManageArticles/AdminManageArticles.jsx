@@ -9,6 +9,7 @@ import {
   deleteArticles,
   createArticles,
   getArticlesWithAuthors,
+  createAuthorForArticle,
 } from "../../database";
 import { getAuthors } from "../../database";
 import {
@@ -27,6 +28,7 @@ const AdminManageArticles = () => {
   const [articlesWithAuthors, setArticlesWithAuthors] = useState([]);
 
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [selectedAuthor, setSelectedAuthor] = useState(null);
   const [articleSectionsById, setArticleSectionsById] = useState([]);
   const [updatedData, setUpdatedData] = useState({});
   const [updatedArticle, setUpdatedArticle] = useState({});
@@ -194,6 +196,20 @@ const AdminManageArticles = () => {
     console.log(article, articles);
   };
 
+  const handleSelectedAuthor = (event) => {
+    setSelectedAuthor(event.target.value);
+  };
+
+  const handleAddAuthor = () => {
+    createAuthorForArticle(selectedAuthor, selectedArticle);
+    console.log(
+      "selectedAuthor",
+      selectedAuthor,
+      "selectedArticle",
+      selectedArticle
+    );
+  };
+
   const filteredArticles = deletedArticleId
     ? articles.filter((article) => article.id !== deletedArticleId)
     : articles;
@@ -344,17 +360,22 @@ const AdminManageArticles = () => {
                   )
                   .map((article) => (
                     <div key={article.name}>
-                      <p>{article.team_name}</p>
+                      <p>
+                        {article.team_name} {article.author_id}
+                      </p>
                     </div>
                   ))}
                 {
-                  <select name="" id="">
+                  <select onChange={handleSelectedAuthor}>
+                    <option value="">Select author</option>
                     {authors.map((author) => (
-                      <option value={author.team_id}>{author.name}</option>
+                      <option value={author.team_id}>
+                        {author.name} {author.team_id}
+                      </option>
                     ))}
                   </select>
                 }
-                <button>Add author</button>
+                <button onClick={handleAddAuthor}>Add author</button>
               </div>
             ))}
 

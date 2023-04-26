@@ -151,6 +151,26 @@ function updateArticles(newData, id) {
       });
   }
 
+  function createAuthorForArticle(selectedAuthor, selectedArticle) {
+    console.log('Creating author for article:', selectedArticle);
+    console.log('Selected author:', selectedAuthor);
+    return fetch(`${url}/articles/createauthor`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selectedAuthor, selectedArticle }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+
 
 
 export {
@@ -164,5 +184,6 @@ export {
     createArticles,
 
     getArticlesWithFirstSection,
-    getArticlesWithAuthors
+    getArticlesWithAuthors,
+    createAuthorForArticle
 }

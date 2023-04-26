@@ -1,4 +1,14 @@
-import { getArticles, getNewestArticle, updateArticles, deleteArticles, createArticles, getArticlesWithFirstSection, getArticlesWithAuthors} from './articles';
+import { 
+    getArticles, 
+    getNewestArticle, 
+    updateArticles, 
+    deleteArticles, 
+    createArticles, 
+    getArticlesWithFirstSection, 
+    getArticlesWithAuthors, 
+    createAuthorForArticle} 
+    from './articles';
+
 import { getAuthors, getAuthorById } from './authors';
 import { getArticleSections, getArticleSectionsById, updateArticleSectionsById, deleteArticleSectionsById, createArticleSectionsById } from './articleSections';
 import { getWhatWeDo, updateWwd, createWwd, deleteWwd } from './whatWeDo';
@@ -15,6 +25,7 @@ export{
     createArticles,
     getArticlesWithFirstSection,
     getArticlesWithAuthors,
+    createAuthorForArticle,
 
     getArticleSections,
     getArticleSectionsById,
