@@ -14,13 +14,13 @@ The website uses React, JavaScript, PostgreSQL, Node.js
 
 ### Future
 
-Currently the website online is static but the goal is to have this website up and running soon.
+Currently the website online is static (thewatotolibrary.org) but the goal is to have this website up and running soon.
 
 ## How to use
 
 The website visitors do not have any managing rights. However to manage the page, you need to manually be given an account by the website owner, then you can sign in to the admin page. To register for an admin account is not possible.
 
-As admin you can go to admin.thewatotolibrary.org and sign in with your email and password. Once logged in, you can do the following:
+As admin you can (when the website is up) go to admin.thewatotolibrary.org and sign in with your email and password. Once logged in, you can do the following:
 
 ##### - Manage articles
 
@@ -35,9 +35,9 @@ As admin you can go to admin.thewatotolibrary.org and sign in with your email an
 ## How to Install and Run the Project
 
 To run the website locally you need the database.
-Download the database here -- and dump it to copy:
+Download the database from here and dump it to copy: https://1drv.ms/u/s!Ai2vvlpx_1zvgcBnXR9dLMnV65-FPA?e=Krono3
 
-      psql dbname < --dbname--.sql
+      psql dbname < twl-db.sql
 
 ### Set up RESTAPI
 

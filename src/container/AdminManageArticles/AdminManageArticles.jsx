@@ -261,7 +261,7 @@ const AdminManageArticles = () => {
                   <tbody>
                     <tr>
                       <td>Publish date</td>
-                      <td>Edit date</td>
+                      <td>Last edited</td>
                       <td>Published</td>
                       <td>Save</td>
                       <td>Delete</td>
@@ -308,6 +308,7 @@ const AdminManageArticles = () => {
                                 )
                               : article.edit_date?.substr(0, 10)
                           }
+                          disabled
                         />
                       </td>
 
