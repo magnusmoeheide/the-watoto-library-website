@@ -78,6 +78,7 @@ const AdminHome = () => {
   );
 
   console.log("newest article", newestArticle);
+  console.log("test");
 
   useEffect(() => {
     updateColor();
