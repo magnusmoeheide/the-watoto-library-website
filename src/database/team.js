@@ -2,7 +2,7 @@ import {url} from './url';
 
 // Make a GET request to get authors from the database
 function getTeam(setvariable) {
-    fetch('http://localhost:3001/team')
+    fetch(`${url}/team`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);

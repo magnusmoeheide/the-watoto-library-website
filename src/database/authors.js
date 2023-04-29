@@ -1,6 +1,8 @@
+import {url} from './url';
+
 // Make a GET request to get authors from the database
 function getAuthors(setvariable) {
-    fetch('http://localhost:3001/authors')
+    fetch(`${url}/authors`)
     .then(response => response.json())
     .then(data => {
       setvariable(data);
@@ -13,7 +15,7 @@ function getAuthors(setvariable) {
 
 // get a author with a specific id
 function getAuthorById(id) {
-    fetch(`http://localhost:3001/authors/${id}`, {
+    fetch(`${url}/authors/${id}`, {
         method: 'GET'
     })
     .then(response => response.json())
