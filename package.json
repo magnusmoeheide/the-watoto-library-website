@@ -1,7 +1,7 @@
 {
   "name": "the-watoto-library-website",
   "version": "0.1.0",
-  "homepage": "https://magnusmoeheide.github.io/the-watoto-library-website/",
+  "homepage": "https://magnusmoeheide.github.io/the-watoto-library-website",
   "private": true,
   "dependencies": {
     "-": "^0.0.1",
