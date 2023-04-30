@@ -62,7 +62,6 @@ const AdminManageOgn = () => {
         text={showErrorMessage ? "Error updating item." : ""}
         type="error"
       />
-
       <br />
       <h3>Our Greatest Needs</h3>
       <table className="adminTable">

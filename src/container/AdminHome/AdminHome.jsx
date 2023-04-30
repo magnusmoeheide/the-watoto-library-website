@@ -196,6 +196,8 @@ const AdminHome = () => {
           ))}
         </tbody>
       </table>
+      <br />
+      <br />
     </div>
   );
 };

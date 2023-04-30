@@ -1501,6 +1501,7 @@ color: rgba(0, 0, 0, 0.25);
 .admin {
   text-align: center;
   padding: 0em 5em;
+  margin-top: 3em;
 }
 
 .admin input {

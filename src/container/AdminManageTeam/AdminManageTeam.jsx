@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { AdminMenu } from "../../components";
+import { Message } from "../../components";
 import { WordCounter } from "../../components";
 import { getTeam, updateTeam, deleteTeam, createTeam } from "../../database";
 
 const AdminManageTeam = () => {
   const [team, setTeam] = useState([]);
   const [updatedData, setUpdatedData] = useState({});
+
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const [nameInputValue, setNameInputValue] = useState("");
   const [roleInputValue, setRoleInputValue] = useState("");
@@ -42,7 +46,13 @@ const AdminManageTeam = () => {
       role,
       board,
     };
-    updateTeam(updatedValues, id);
+
+    try {
+      await updateTeam(updatedValues, id);
+      setShowSuccessMessage(true);
+    } catch (error) {
+      setShowErrorMessage(true);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -61,7 +71,12 @@ const AdminManageTeam = () => {
       boardInputValue
     );
     if (newTeamMember) {
-      setTeam([...team, newTeamMember]);
+      try {
+        await setTeam([...team, newTeamMember]);
+        setShowSuccessMessage(true);
+      } catch (error) {
+        setShowErrorMessage(true);
+      }
     }
   };
 
@@ -69,6 +84,14 @@ const AdminManageTeam = () => {
     <div className="admin">
       <h1>Admin Manage Team</h1>
       <AdminMenu />
+      <Message
+        text={showSuccessMessage ? "Team updated successfully!" : ""}
+        type="success"
+      />
+      <Message
+        text={showErrorMessage ? "Error updating team." : ""}
+        type="error"
+      />
       <br />
       <h3>Add Member</h3>
       <table className="adminTable">
