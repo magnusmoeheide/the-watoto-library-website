@@ -41,7 +41,7 @@ const Donate = () => {
           <div className="article">
             <h3>Our Expenses</h3>
             <p>
-              We pay rent for our two library rooms and electricity. Per year:
+              We pay rent for our two library rooms and electricity. Per year:{" "}
               <div className="price" style={{ marginTop: "0px" }}>
                 US$ 540
               </div>
@@ -52,7 +52,7 @@ const Donate = () => {
 
             <p>
               We compensate our two library keepers and instructors for their
-              engagements. Per year:
+              engagements. Per year:{" "}
               <div className="price" style={{ marginTop: "0px" }}>
                 US$ 1,000
               </div>

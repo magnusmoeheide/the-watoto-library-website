@@ -17,7 +17,7 @@ const WhatWeDo = () => {
     getWwdSections(setWwdSections);
   }, []);
 
-  // Group sections by article ID
+  // group sections by article ID
   const sectionsByWwd = wwdSections.reduce((acc, section) => {
     if (!acc[section.wwd_id]) {
       acc[section.wwd_id] = [];
