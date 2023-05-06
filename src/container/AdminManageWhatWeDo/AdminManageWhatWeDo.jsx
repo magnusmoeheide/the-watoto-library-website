@@ -111,6 +111,7 @@ const AdminManageWhatWeDo = () => {
     published
   ) => {
     console.log("values", instructor, opening_hours, max_people, published);
+
     const updatedWwd = {
       instructor,
       opening_hours,
@@ -190,8 +191,10 @@ const AdminManageWhatWeDo = () => {
             </td>
             <td>
               <select name="" id="">
-                {team.map((wwd) => (
-                  <option key={wwd.id}>{wwd.name}</option>
+                {team.map((member) => (
+                  <option key={member.id} value={member.name}>
+                    {member.name.split(" ")[0]}
+                  </option>
                 ))}
               </select>
             </td>
@@ -246,22 +249,35 @@ const AdminManageWhatWeDo = () => {
                     </tr>
                     <tr>
                       <td>
-                        <WordCounter
-                          maxLength={25}
-                          height={60}
+                        <select
                           value={
                             updatedWwd[wwd.id]?.instructor ?? wwd.instructor
                           }
-                          onChange={(value) => {
+                          onChange={(e) => {
                             setUpdatedWwd({
                               ...updatedWwd,
                               [wwd.id]: {
                                 ...updatedWwd[wwd.id],
-                                instructor: value,
+                                instructor: e.target.value,
                               },
                             });
                           }}
-                        />
+                        >
+                          <option value="">Select an instructor</option>
+                          {team.map((member) => (
+                            <option
+                              key={member.id}
+                              value={member.name}
+                              selected={
+                                member.name ===
+                                (updatedWwd[wwd.id]?.instructor ??
+                                  wwd.instructor)
+                              }
+                            >
+                              {member.name.split(" ")[0]}
+                            </option>
+                          ))}
+                        </select>
                       </td>
 
                       <td>

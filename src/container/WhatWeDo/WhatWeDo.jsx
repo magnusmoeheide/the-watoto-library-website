@@ -90,7 +90,7 @@ const WhatWeDo = () => {
                               <div className="flex-container-2">
                                 <div className="coach">
                                   <i className="fa-solid fa-chalkboard-user"></i>
-                                  {wwdItem && wwdItem.instructor}
+                                  {wwdItem && wwdItem.instructor.split(" ")[0]}
                                 </div>
                                 <div className="amount">
                                   <i className="fa-solid fa-child"></i>

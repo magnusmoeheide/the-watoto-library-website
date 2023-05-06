@@ -140,10 +140,9 @@ const AdminHome = () => {
       <table className="adminTable">
         <tbody>
           <tr>
-            <th>ID</th>
-            <th>Publish date</th>
-            <th>Edit date</th>
             <th>Title</th>
+            <th>Published date</th>
+            <th>Edit date</th>
             <th>Published</th>
           </tr>
 
@@ -151,7 +150,7 @@ const AdminHome = () => {
             .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date))
             .map((article) => (
               <tr key={article.id}>
-                <td>{article.article_id}</td>
+                <td>{article.section_header}</td>
                 <td>
                   {new Date(article.publish_date).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -168,7 +167,7 @@ const AdminHome = () => {
                     timeZone: "Europe/Berlin",
                   })}
                 </td>
-                <td>{article.section_header}</td>
+
                 <td>{article.published ? "✅" : "❌"}</td>
               </tr>
             ))}

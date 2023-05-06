@@ -28,11 +28,11 @@ const AdminManageArticles = () => {
   const [articlesWithAuthors, setArticlesWithAuthors] = useState([]);
 
   const [selectedArticle, setSelectedArticle] = useState(null);
-  const [storedSelectedArticle, setStoredSelectedArticle] = useState(null);
 
   const [selectedAuthor, setSelectedAuthor] = useState(null);
   const [articleSectionsById, setArticleSectionsById] = useState([]);
   const [updatedData, setUpdatedData] = useState({});
+  const defaultValues = {};
   const [updatedArticle, setUpdatedArticle] = useState({});
   const [publishedDate, setPublishedDate] = useState(undefined);
   const [deletedSectionId, setDeletedSectionId] = useState(null);
@@ -44,6 +44,14 @@ const AdminManageArticles = () => {
   );
   const [editDateInputValue, setEditDateInputValue] = useState("");
   const [publishedInputValue, setPublishedInputValue] = useState("");
+  const [storedSelectedArticle, setStoredSelectedArticle] = useState(
+    localStorage.getItem("selectedArticle")
+  );
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [changesMade, setChangesMade] = useState(0);
+
+  const [selectValue, setSelectValue] = useState("");
 
   useEffect(() => {
     getAuthors(setAuthors);
@@ -84,7 +92,7 @@ const AdminManageArticles = () => {
   useEffect(() => {
     // Set default values of input fields to values in article
     if (articleSectionsById.length) {
-      const defaultValues = articleSectionsById.reduce(
+      const sectionValues = articleSectionsById.reduce(
         (acc, section) => ({
           ...acc,
           [section.id]: {
@@ -95,21 +103,27 @@ const AdminManageArticles = () => {
         }),
         {}
       );
-      setUpdatedData(defaultValues);
+      setUpdatedData(sectionValues);
+      defaultValues.current = sectionValues;
     }
-    console.log("Article sections by id: ", articleSectionsById);
   }, [articleSectionsById]);
 
   useEffect(() => {
-    const storedSelectedArticle = localStorage.getItem("selectedArticle");
+    setChangesMade(changesMade + 1);
+    if (changesMade >= 2) {
+      setIsButtonDisabled(false);
+    }
+  }, [updatedData]);
+
+  useEffect(() => {
     if (storedSelectedArticle) {
       setSelectedArticle(storedSelectedArticle);
       handleArticleSelect(storedSelectedArticle);
+      setSelectValue(storedSelectedArticle);
     }
-    localStorage.removeItem("selectedArticle");
   }, []);
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     const articleToReload = selectedArticle;
     localStorage.setItem("selectedArticle", articleToReload);
     window.location.reload();
@@ -211,17 +225,25 @@ const AdminManageArticles = () => {
     console.log("Created section: ", createdSection);
   };
 
-  const handleArticleSelect = (selectedId) => {
+  const handleArticleSelect = async (selectedId) => {
     const id = selectedId || storedSelectedArticle;
     console.log("selected id", id);
     setSelectedArticle(id);
-    getArticleSectionsById(id, setArticleSectionsById);
-  };
+    await getArticleSectionsById(id, setArticleSectionsById);
 
-  const handleDelete = async (id) => {
-    await deleteArticles(id);
-    setDeletedArticleId(id); // Update the state to trigger a re-render
-    window.location.reload();
+    console.log(
+      "stored article",
+      storedSelectedArticle,
+      "OR selected article",
+      selectedId
+    );
+
+    if (storedSelectedArticle) {
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+        localStorage.removeItem("selectedArticle");
+      }, 1000);
+    }
   };
 
   const handleDeleteSection = async (id) => {
@@ -238,6 +260,7 @@ const AdminManageArticles = () => {
       await deleteArticles(articleSectionsById[0].article_id);
       setDeletedArticleId(articleSectionsById[0].article_id);
       setSelectedArticle(null);
+      window.location.reload();
     }
   };
 
@@ -276,8 +299,11 @@ const AdminManageArticles = () => {
 
       <h2>Article info</h2>
       <select
-        onChange={(e) => handleArticleSelect(e.target.value)}
-        value={selectedArticle}
+        onChange={(e) => {
+          setSelectValue(e.target.value);
+          handleArticleSelect(e.target.value);
+        }}
+        value={selectValue}
       >
         <option value="">Select article to edit</option>
         {articleSections
@@ -303,7 +329,6 @@ const AdminManageArticles = () => {
                       <td>Last edited</td>
                       <td>Published</td>
                       <td>Save</td>
-                      <td>Delete</td>
                     </tr>
                     <tr>
                       <td>
@@ -399,17 +424,6 @@ const AdminManageArticles = () => {
                           Save changes
                         </button>
                       </td>
-
-                      <td>
-                        {/* <button
-                          onClick={() => handleDelete(article.id)}
-                          disabled={articleSectionsById.some(
-                            (section) => section.article_id === article.id
-                          )}
-                        >
-                          Delete
-                        </button> */}
-                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -443,7 +457,9 @@ const AdminManageArticles = () => {
 
           <br />
           <h2>Article</h2>
-          <button onClick={handleSaveChanges}>Save section changes</button>
+          <button disabled={isButtonDisabled} onClick={handleSaveChanges}>
+            Save section changes
+          </button>
           {articleSectionsById.length > 0 &&
             articleSectionsById.map((section) => (
               <div key={section.id}>
@@ -520,8 +536,10 @@ const AdminManageArticles = () => {
               </div>
             ))}
 
-          <button onClick={handleAddSection}>Add Section</button>
-          <button onClick={handleSaveChanges}>Save changes</button>
+          <button onClick={handleAddSection}>Save and add Section</button>
+          <button disabled={isButtonDisabled} onClick={handleSaveChanges}>
+            Save section changes
+          </button>
         </div>
       )}
     </div>
