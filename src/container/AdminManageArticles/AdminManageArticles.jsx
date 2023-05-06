@@ -28,6 +28,8 @@ const AdminManageArticles = () => {
   const [articlesWithAuthors, setArticlesWithAuthors] = useState([]);
 
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [storedSelectedArticle, setStoredSelectedArticle] = useState(null);
+
   const [selectedAuthor, setSelectedAuthor] = useState(null);
   const [articleSectionsById, setArticleSectionsById] = useState([]);
   const [updatedData, setUpdatedData] = useState({});
@@ -95,11 +97,24 @@ const AdminManageArticles = () => {
       );
       setUpdatedData(defaultValues);
     }
+    console.log("Article sections by id: ", articleSectionsById);
   }, [articleSectionsById]);
 
+  useEffect(() => {
+    const storedSelectedArticle = localStorage.getItem("selectedArticle");
+    if (storedSelectedArticle) {
+      setSelectedArticle(storedSelectedArticle);
+      handleArticleSelect(storedSelectedArticle);
+    }
+    localStorage.removeItem("selectedArticle");
+  }, []);
+
   const handleSaveChanges = () => {
+    const articleToReload = selectedArticle;
+    localStorage.setItem("selectedArticle", articleToReload);
     window.location.reload();
-    console.log("updatedData before saving:", updatedData);
+
+    // Loop through all sections and update the data from the new updatedData values
     articleSectionsById.forEach((section) => {
       updateArticleSectionsById(
         section.id,
@@ -108,6 +123,11 @@ const AdminManageArticles = () => {
         updatedData[section.id].section_number
       );
     });
+
+    // Update the variable that holds the sections with the new data
+    setArticleSectionsById(updatedData);
+
+    console.log("updatedData after saving:", updatedData);
   };
 
   const handleSave = async (id, publish_date, edit_date, published) => {
@@ -155,31 +175,47 @@ const AdminManageArticles = () => {
   };
 
   const handleAddSection = async () => {
+    handleSaveChanges();
+
     const totalSections = articleSectionsById.length;
+    console.log(
+      "Number of sections currently in articleSectionsById: ",
+      totalSections
+    );
+
     const articleId = Number(selectedArticle);
+    console.log("Article ID selected: ", articleId);
+
+    // Create a new section with empty input fields and section number +1 of total sections
     const newSection = {
       section_header: "",
       section_text: "",
       section_number: totalSections + 1,
       article_id: articleId,
     };
-    console.log("new section ", newSection);
+
+    console.log("New section content", newSection);
+
+    // Call the createArticleSectionsById function, passing in the new section object
+    // and the ID of the currently selected article. This function returns the newly created section object.
     const createdSection = await createArticleSectionsById(
       newSection,
       selectedArticle
     );
+
+    // Update the articleSectionsById array if CreatedSection is good
     if (createdSection) {
-      setArticleSectionsById([...articleSectionsById, createdSection]);
-      setArticleSectionsById((prev) => [...prev]);
+      setArticleSectionsById([...articleSectionsById, createdSection]); // Add created section to the array
+      setArticleSectionsById((prev) => [...prev]); // Using previous state to make sure it is updated correctly
     }
-    console.log("created section: ", createdSection);
+    console.log("Created section: ", createdSection);
   };
 
-  const handleArticleSelect = (event) => {
-    const selectedId = event.target.value;
-    console.log("selected id", selectedId);
-    setSelectedArticle(selectedId);
-    getArticleSectionsById(selectedId, setArticleSectionsById);
+  const handleArticleSelect = (selectedId) => {
+    const id = selectedId || storedSelectedArticle;
+    console.log("selected id", id);
+    setSelectedArticle(id);
+    getArticleSectionsById(id, setArticleSectionsById);
   };
 
   const handleDelete = async (id) => {
@@ -239,7 +275,10 @@ const AdminManageArticles = () => {
       <button onClick={handleAdd}>Create</button>
 
       <h2>Article info</h2>
-      <select onChange={handleArticleSelect}>
+      <select
+        onChange={(e) => handleArticleSelect(e.target.value)}
+        value={selectedArticle}
+      >
         <option value="">Select article to edit</option>
         {articleSections
           .filter((section) => section.section_number === 1)
@@ -362,14 +401,14 @@ const AdminManageArticles = () => {
                       </td>
 
                       <td>
-                        <button
+                        {/* <button
                           onClick={() => handleDelete(article.id)}
                           disabled={articleSectionsById.some(
                             (section) => section.article_id === article.id
                           )}
                         >
                           Delete
-                        </button>
+                        </button> */}
                       </td>
                     </tr>
                   </tbody>
@@ -405,9 +444,8 @@ const AdminManageArticles = () => {
           <br />
           <h2>Article</h2>
           <button onClick={handleSaveChanges}>Save section changes</button>
-          {articleSectionsById
-            .sort((a, b) => a.section_number - b.section_number)
-            .map((section) => (
+          {articleSectionsById.length > 0 &&
+            articleSectionsById.map((section) => (
               <div key={section.id}>
                 <div className="article left">
                   <p>
@@ -483,6 +521,7 @@ const AdminManageArticles = () => {
             ))}
 
           <button onClick={handleAddSection}>Add Section</button>
+          <button onClick={handleSaveChanges}>Save changes</button>
         </div>
       )}
     </div>
