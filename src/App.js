@@ -16,14 +16,16 @@ import {
 import './App.css';
 import './articles.css';
 import {Routes, Route} from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useNavigate } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { AuthContext } from './context/AuthContext';
+import { useLocation } from 'react-router-dom';
 
 function App() {
-
   const [authUser, setAuthUser] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -35,6 +37,18 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    // Save the current path in localStorage
+    localStorage.setItem('currentPath', location.pathname);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    // Retrieve the current path from localStorage and navigate to it
+    const currentPath = localStorage.getItem('currentPath');
+    if (currentPath) {
+      navigate(currentPath);
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -60,5 +74,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
