@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/the-watoto-library-website/static/css/main.eace3752.css",
-    "main.js": "/the-watoto-library-website/static/js/main.1711ed11.js",
+    "main.css": "/the-watoto-library-website/static/css/main.f75b2677.css",
+    "main.js": "/the-watoto-library-website/static/js/main.7e66751b.js",
     "static/media/inside-the-library.jpg": "/the-watoto-library-website/static/media/inside-the-library.5f3ee08b1f3769ea2636.jpg",
     "static/media/boys-playing-chess.png": "/the-watoto-library-website/static/media/boys-playing-chess.79f6338c4fab2d87af6b.png",
     "static/media/happy-boys.jpeg": "/the-watoto-library-website/static/media/happy-boys.ebd9df8c2042c7623318.jpeg",
@@ -9,11 +9,11 @@
     "static/media/logo-transparent.png": "/the-watoto-library-website/static/media/logo-transparent.208b38dc99ac5390216b.png",
     "static/media/paypal-transparent.png": "/the-watoto-library-website/static/media/paypal-transparent.3d304dbf36af72895645.png",
     "index.html": "/the-watoto-library-website/index.html",
-    "main.eace3752.css.map": "/the-watoto-library-website/static/css/main.eace3752.css.map",
-    "main.1711ed11.js.map": "/the-watoto-library-website/static/js/main.1711ed11.js.map"
+    "main.f75b2677.css.map": "/the-watoto-library-website/static/css/main.f75b2677.css.map",
+    "main.7e66751b.js.map": "/the-watoto-library-website/static/js/main.7e66751b.js.map"
   },
   "entrypoints": [
-    "static/css/main.eace3752.css",
-    "static/js/main.1711ed11.js"
+    "static/css/main.f75b2677.css",
+    "static/js/main.7e66751b.js"
   ]
 }
