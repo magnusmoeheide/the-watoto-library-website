@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
 
 import { AdminMenu } from "../../components";
 import {
@@ -13,20 +12,27 @@ import { getAuthors, getAuthorById } from "../../database";
 import { signOut } from "firebase/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 const AdminHome = () => {
   const auth = getAuth();
   const navigate = useNavigate();
+  const userInfo = useContext(UserContext);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
+      console.log("User ID", uid);
+      // Set the user id in localStorage
+      localStorage.setItem("userId", uid);
       // ...
       //console.log("uid", uid);
     } else {
       navigate("/");
+      // Remove the user id from localStorage
+      localStorage.removeItem("userId");
       // ...
       console.log("user is logged out");
     }
@@ -97,6 +103,7 @@ const AdminHome = () => {
       <h1>Admin Home</h1>
       <AdminMenu />
       <button onClick={handleLogout}>Logout</button>
+      {/* <p>Signed in as: {userInfo.uid}</p> */}
       <h3>Stats</h3>
       <p>Articles created: {articles.length}</p>
 
