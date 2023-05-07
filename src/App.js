@@ -38,19 +38,6 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    // Save the current path in localStorage
-    localStorage.setItem('currentPath', location.pathname);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    // Retrieve the current path from localStorage and navigate to it
-    const currentPath = localStorage.getItem('currentPath');
-    if (currentPath) {
-      navigate(currentPath);
-    }
-  }, []);
-
   return (
     <div className="App">
        <AuthContext.Provider value={authUser}>
